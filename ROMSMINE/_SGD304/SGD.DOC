@@ -1,0 +1,2147 @@
+Spectrum Games Database v2.04                               (Release 15-04-2001)
+Written by M. van der Heide - Copyright 1995-2001 ThunderWare Research Center
+
+This program may be used for maintenance purposes of your ZX Spectrum programs.
+It can be used in conjunction with the eleven leading PC Spectrum emulator
+programs: `Z80', `JPP', `Warajevo', `X128', `WSpecEm', `ZX', 'Spanish Spectrum
+emulator', `ZX-32', `R80', the `Russian Spectrum Emulator' from Shalayev, the
+`Russian Spectrum Emulator' from Yudin and 'RealSpectrum' and knows all about
+.Z80, .TAP, .MDR, .VOC, .SNA, .SLT, .LTP, .SNP, .SEM, .SP, .TZX, .TRD, .DSK,
+.FDI, .SCR and .POK files.
+
+0. STANDARD DISCLAIMER
+----------------------
+This program is provided "as is", without any warranties, nor an indication
+that it will fit the purpose.
+S.G.D. has been tested on a lot of systems, including '386, '486, '486DLC and
+Pentium machines (even emulators), with ISA, VLB and PCI causing no problems.
+If you want to use this program, though, you do so at your own risk. This means
+that it is extremely unlikely to damage your system, but if the unthoughtful
+event DOES happen, you will be on your own.
+ThunderWare Research Center can and will accept no claims whatsoever.
+
+This program is neither public domain nor shareware: it's freeware.
+This means that anyone is allowed to distribute and use the program, but all
+copyrights are still owned by ThunderWare Research Center.
+You can therefor not request any money from anyone for copying this program,
+apart from the expenses made for the media onto which it has been copied.
+You are granted explicit permission to put SGD on a CD-ROM.
+
+Remember you can always freely obtain the latest version from
+The World of Spectrum, at:
+    http://www.void.demon.nl/spectrum.html
+
+Or you can try:
+    ftp://ftp.void.jump.org/pub/sinclair/tools/pc
+
+If you want Spectrum software, have a look at the official world archive for the
+Spectrum on the internet, The World of Spectrum:
+    http://www.void.demon.nl/spectrum.html
+    ftp://ftp.void.jump.org/pub/sinclair
+
+
+0. INDEX
+--------
+
+    1.   Requirements
+    2.   Important Notes
+    3.   Getting Started
+    4.   Sytax
+    5.   The Screen
+    6.   The Fill-In Fields
+    7.   Selecting a Game
+    8.   The Selection Criterion
+    9.   The Configuration
+    9.1. The Configuration File
+   10.   The Menu Strip
+   11.   .TAP/.LTP Catalogs
+   12.   .MDR Catalogs
+   13.   .TZX Catalogs
+   14.   The Game Information File
+   15.   The Game Screenshot File
+   16.   The Game Inlay File
+   17.   The Game Pokes File
+   18.   Database Validation
+   19.   Game Compression
+   20.   Supported Models and File Types
+   20.1. Notes on Using the `Z80' Spectrum Emulator
+   20.2. Notes on Using the `Warajevo' Spectrum Emulator
+   20.3. Notes on Using the `X128' Spectrum Emulator
+   20.4. Notes on Using the `WSpecEm' Spectrum Emulator
+   20.5. Notes on Using the `ZX' Spectrum Emulator
+   20.6. Notes on Using the `Spanish Spectrum Emulator'
+   20.7. Notes on Using the `ZX-32' Spectrum Emulator
+   20.8. Notes on Using the `R80' Spectrum Emulator
+   20.9. Notes on Using the `Russian Spectrum Emulator' from Shalayev
+   20.A. Notes on Using the `Russian Spectrum Emulator' from Yudin
+   20.B. Notes on Using the `RealSpectrum' Spectrum Emulator
+   21.   Converting Your Databases
+   22.   Using a Custom Palette
+   23.   Using Languages
+   24.   Saving BASIC Blocks
+   25.   MultiLoad Games
+   26.   Using TAPER in Conjuction with SGD
+   27.   Troubleshooting
+   28.   The Credits
+   29.   How to Contact Me
+
+
+1. REQUIREMENTS
+---------------
+In order to be able to use this program you will need the following resources:
+
+- HARDWARE:
+  - A 80386 or better processor,
+  - A (Super)VGA card with at least 256Kb,
+  - A mouse with a fully Microsoft compatible driver
+    (Microsoft compatibility version 6.26 or up),
+  - At least 4Mb of memory,
+
+- SOFTWARE:
+  - (MS)DOS 5.0 or better,
+  - A copy of the free DOS/4GW runtime.
+
+Additionally, you will need:
+- Loads of Spectrum games :)
+- One of the supported emulators if you want to play the games.
+
+
+See HISTORYS.DOC for the latest changes.
+Notice that the 16-bit version has been discontinued!
+
+
+2. IMPORTANT NOTES
+------------------
+If you want to use options that are not yet in your configuration file,
+simply start SGD, choose `Config' and `Save'. This writes the configuration
+file back, but with the new options added (at their default values).
+
+ 1. If a fatal error occurs, you will be asked if an attempt should be made to
+    rescue the database (if it had been changed). If a successful attempt was
+    made, the database will be in the file `GAMES.SAV'.
+    You must rename this file to `GAMES.DAT' yourself before restarting.
+ 2. If the following fatal error occurs after writing back a changed database:
+    `Could not install new database', or `Could not remove old database', the
+    version just written will have an extension `.TMP' (in the same directory
+    as the old database).
+    You must rename this file yourself before restarting.
+ 3. Since v1.35, SGD runs perfectly well in a Windows DOS box.
+    Special considerations are:
+    - Set variable `NoLocalMouseHiding' in TAPER.INI to `On' (if running NT);
+ 4. Although this program runs fine in a DOS-box from Windows, this is not the
+    recommended setup, as the Spectrum emulator doesn't like Windows that much
+    (and neither should you)! Also see the Troubleshooting section on Windows.
+    Make sure you allow use of the upper memory area, as this frees a large
+    amount of precious conventional memory.
+ 5. When you choose to validate the database, remember that using a diskcaching
+    program (such as SMARTDRV) will do miracles.
+ 6. The maximum filesize for a game is currently 7 digits. Please let me know if
+    you have larger (`.VOC') files and you want to include them too.
+ 7. Some options (eg. poking a game) need a temporary directory to be defined.
+    In DOS, you define this with the command (in your AUTOEXEC.BAT)
+      SET TMP=<path>
+    Windows users will probably have a `TEMP' setting instead.
+    SGD will look for `TMP' first. If this is not set it will look for `TEMP'.
+    If neither one is set, it will use the SGD directory.
+    If you start SGD from a floppy or CD-ROM, you MUST have one of `TMP' or
+    `TEMP'!
+    If you want some real speed, create a RAM disk and make `TMP' point to it.
+
+
+3. GETTING STARTED
+------------------
+You are encouraged to read this entire document before starting on your first
+database, so you will understand the steps.
+
+ 1. Start SGD without a [databasename]. This will start using the default name
+    'GAMES.DAT'.
+ 2. Click on the `Config' button.
+    In the upper right corner of the configuration window, you will see a block
+    `Emulator'.
+    a. The topmost option is `Emulator Type'. Select the type of emulator you
+       will be using.
+    b. The option right below it is `Emulator Path'. Use the browse button to
+       the right of this field to select the starting command of your emulator.
+    Now select button `Save' to save this setup, and select `Use'.
+    The configuration window will be closed.
+    For more information about the configuration window, refer to
+    `The Configuration' further in this document.
+ 3. Press the right mouse button and keep it pressed. You will see the menu
+    strip at the top of the screen.
+    While keeping the right mouse button pressed, move your mouse over the left
+    menu option `Database'. The menu will expand. While still keeping the right
+    mouse button pressed, move to the submenu option `Search For Games'.
+    When your mouse pointer is over this option, release the right mouse button.
+    (For more information about the menu strip, refer to `The Menu Strip'
+    further in this document).
+    You will now have a filerequester on your screen.
+    Use this filerequester to browse to the (first) directory where you put your
+    Spectrum games, then select `Ok'.
+    SGD will now search this directory and all subdirectories for Spectrum games
+    and ask you which ones should be included into your database.
+    If you have more directories with games, repeat this step.
+ 4. Click on the `Save' button on your screen.
+
+ Congratulations! You have your very first ready-to-run database now!
+
+ As you will see, the left window has a list of all games you included.
+ All games that cannot be played with the emulator you set up in the first step
+ are printed in red.
+ You can now either double-click on a name in the left window, or click once and
+ click on the `Play' button to start playing each game.
+
+ The game list is composed of the game filenames, without extensions.
+ This works perfectly well, although you will probably want some more
+ descriptive names (say, the full game's name).
+ This has to be changed manually (of course).
+ To change a name, click on the game entry you wish to rename (left window).
+ The right window is used to show/edit information about this particular game.
+ The topmost field, `Name', is what you are looking for. Click on this field to
+ get a cursor and type the name you want. When you're done, either use the [TAB]
+ or [ENTER] key. The name in the left window will have changed as well, and will
+ automatically be sorted into place.
+
+
+4. SYNTAX
+---------
+To see what syntax is available, use SGD -?
+
+To start the Spectrum Games Database, use the syntax
+
+  SGD [-cX] [-p] [-w] [-s] [-m] [-u] [databasename]
+
+Option `-cX' (or `/cX', `-CX' or `/CX') is used if you are upgrading your
+database.
+Use -c1 to convert from version 1.07 or below
+Use -c2 to convert from version 1.09 or below
+Use -c3 to convert from version 1.17 or below
+Use -c4 to convert from version 1.21 or below
+Use -c5 to convert from version 1.29 or below
+Use -c6 to convert from version 1.30 or below
+Use -c7 to convert from version 1.35 or below
+Use -c8 to convert from version 2.01 or below
+All databases 1.10 and up will be auto-converted, so options `-c3', `-c4',
+`-c5', `-c6', `-c7' and `-c8' are not required.
+
+Option `-p' is used to disable the load/save percentage bar, which is useful
+if you have a slower computer or a really slow video card.
+
+Option `-w' is used to disable MS Windows `multitasking' if it is detected.
+It will be enabled again once you leave SGD. This should be used with caution.
+This option works on Windows 3.x in enhanced mode and on Windows95/98.
+Of course, programs run from the shell (such as a ZX Spectrum emulator) will
+still detect that Windows is running and act accordingly, but emulation will
+be a lot faster and more accurate.
+This option should not be used when using the `WSpecEm' or `ZX-32' Spectrum
+emulator!
+
+Option `-s' disables use of a Soundcard. Use this if your machine crashes on
+soundcard detection, or if you don't want SGD to lock your soundcard under
+Windows.
+
+Option `-m' disables handling of a software Mixer on the detected soundcard.
+Use this option only if your machine cannot handle this.
+
+Option `-u' disables use of Upper memory.
+Obsolete option...
+
+The [databasename] may be omitted, which is defaulted to `GAMES.DAT'. If you
+want to use a different database, remember that any rescued database is
+ALWAYS named `GAMES.SAV' in the SGD directory!
+Any database printed to a file will get extension `.OUT' and will be in the same
+directory as the database itself.
+
+
+5. THE SCREEN
+-------------
+The screen is set up in a 640x480x16 resolution and contains two windows.
+The left window holds the Spectrum games stored in the current database file,
+the right window is the description window that contains information on the
+game that is currently being selected.
+
+The game information window (the right window) contains the following fields:
+
+Name        - Name of the game.
+Year        - Year of publication.
+Publisher   - Publisher of the game.
+Author(s)   - Author(s) of the game.
+Memory      - Possible values are
+              "16", which means it's a 16K game,
+              "48", which means it's a 48K-only game,
+              "128", which means it's a 128K-only game,
+              "48/128", which means it can be loaded in both 48K and 128K mode.
+              (this value is printed as "4/1").
+              "USR0", which means it's a 128K game that loads in USR 0 mode.
+              (this value is printed as "US0").
+              "+2/+2A", which means it's a 128K/+2/+2A-only game,
+              "+3", which means it's a 128K/+3-only game,
+              "Pentag", which means it's a Pentagon-only game,
+              The selected emulator memory type is 48K for values "16" and "48",
+              128K for the others, unless the emulator understands differences;
+# Players   - Number of players that can participate;
+Together    - If more than one player, can all players play at the same time?
+Score       - How well do you like the game?
+PC-Name     - Filename of the game and size of the file.
+Type        - Descriptive game type.
+Joysticks   - Supported joysticks.
+Orig Screen - Does the snapshot (tapefile) have the original loading screen?
+Origin      - Where does this version come from?
+              Possible values are
+              " " = (unknown)
+              "O" = Original release
+              "R" = Re-release
+              "C" = Compilation release
+              "M" = Magazine conver-tape version
+              "T" = Type-in
+              "H" = Hacked/cracked version
+              "I" = Incomplete version
+              "B" = Buggered/corrupted version
+AY-Sound    - Does the game have AY sound?
+MultiLoad   - Does the game load extra parts (levels)?
+              "yes" means the game is multi-load in either 48K or 128K,
+              "48K" means the game is multi-load only when loaded in 48K mode,
+              "no" means the game is not multi-load at all.
+              Also refer to `MultiLoad Games' further in this document.
+Language    - Message language of the game.
+Override    - Use a different emulator for this specific game than the one you
+              defined in your configuration. Use "none" to use the set up one.
+              Some games simply don't run on your favorite emulator. Using an
+              override will keep you from constantly changing your config.
+
+The lower part of this window is used for the `Screen', `List' and `ScrShot'
+button output.
+At the bottom of this window is the name of the current database printed,
+together with a checkmark if the database has been changed.
+
+The order of emulator selection for a game is (strongest first):
+1. Override button attached to the entry,
+2. Extension Link as set up in the configuration,
+3. The default emulator as set up in the configuration.
+
+The fields in this window can also be selected with the [TAB]/[ENTER] keys.
+[TAB] cycles clockwise, [SHIFT] + [TAB] cycles counter-clockwise.
+
+Between these two windows you will find the following buttons:
+
+Add     - Add an entry to the database. After filling in the name of the game,
+          the new entry will be sorted into the database.
+Del     - Delete the game that is currently selected. Note that the game will
+          only be removed from the database, the game file itself will be left
+          alone. Confirmation is asked if this is set in the configuration.
+Write   - Write the database back to disk. This is also done if you leave the
+          application.
+Reload  - Re-read the database from disk.
+Print   - Print the database to the printer.
+          You will find a `Select' button in the print requester to configure
+          which fields (and in what order) are to be printed.
+
+Play    - Play the selected game in the selected emulator.
+          - If the game is not in a snapshot file, you will have to type
+            LOAD "" first to load the game, unless configuration option
+            `Auto-Load Tapes' was turned on.
+            Auto-Loading is not implemented for +2/+2A, +3 and Pentagon
+            software (as these models are not supported in the Z80 snapshot
+            format!)
+          - `.MDR' files are put into microdrive 1.
+          - 128K games use the 128K Spectrum.
+Poke    - Play the selected game, but insert cheat-pokes first.
+
+Config  - Configure the application.
+Shell   - Shell out to DOS.
+          WARNING: you must not start TSR programs from within the shell, or the
+          application will not be able to swap back in!
+          If MS Windows multitasking has been disabled, it is still disabled
+          while you're in a shell.
+Quit    - Stop.
+
+Screen  - Find and display the Spectrum screen contained in the game. If the
+          game is in a tape file, the first screen in the tape is taken.
+List    - TAP files: creates a catalog of the tape (see below for format);
+          TZX files: creates a catalog of the tape (see below for format);
+          MDR files: creates a catalog of the microdrive cartridge, very much
+                     like you type `CAT 1' on the Spectrum (see below);
+                     If the cartridge is write protected, this is reported in
+                     blue after the cartridge name (first line).
+          Z80 files: gives some information as found in the header.
+          SLT files: as Z80 files, but also reports some information about the
+                     extension blocks.
+          Others   : gives nothing, as nothing interesting can be found in the
+                     header!
+ScrShot - View a saved screenshot (.SCR) file. See `Game Screenshot Files' for
+          more information. SLT files only show a screenshot if it is included
+          in the snapshot (as extension).
+
+Info    - View the game information file (see below).
+EdInfo  - Edit the game information file in a seperate task.
+EdPoke  - Edit the game pokes file (see below).
+
+Help    - View this file.
+About   - Shows an about box.
+SysInfo - Shows some system information.
+
+The buttons can be selected in two ways:
+
+1. By clicking on them,
+2. By pressing [ALT] + the underlined character.
+
+You can make a snapshot (GIF image) of the full screen at any time by pressing
+[CTRL][Print Screen]. In each session, the first screen dump will be called
+SDUMP001.GIF, the next SDUMP002.GIF etc.
+
+When a Spectrum screen is being displayed, you can press [ALT][G] to convert
+this image to a GIF file, which will be created in the directory you assign in
+the configuration file (`GIFPath' value). The name of the image will have the
+same PC-name as the game, with extension `.GIF'
+
+
+6. THE FILL-IN FIELDS
+---------------------
+The fields `Name', `Publisher', `Author(s)', `Year', `Players', `Score',
+`PC-Name' and `Type' can be edited. Click on it to get a cursor. The keys are:
+
+[CURSOR LEFT]  - One char left;
+[CURSOR RIGHT] - One char right;
+[HOME]         - Go to the start of the box;
+[END]          - Go to the end of the box;
+[BACKSPACE]    - Delete the character before the cursor;
+[DEL]          - Delete the character under the cursor;
+[INS]          - Toggle insert/overstrike mode (the startup mode is set in the
+                 configuration window);
+[ENTER]        - Accept the input and elect next button;
+[TAB]          - Accept the input and elect next button;
+[SHIFT][TAB]   - Accept the input and elect previous button;
+[ESC]          - Restore and stop editing;
+
+[CTRL] and one of:
+
+[CURSOR LEFT]  - One word left;
+[CURSOR RIGHT] - One word right;
+[HOME]         - Go to the start of the input field;
+[END]          - Go to the end of the input field;
+[DEL]          - Clear the entire input field.
+B              - Clear Beginning of input field up to the cursor;
+E              - Clear from the cursor to the End of the input field;
+W              - Clear from the cursor to the start of the next Word;
+P              - This keystroke is remapped to the pound sign (`œ');
+
+Any ASCII character inserts the character.
+The fields `Year', `Players' and `Score' only accept numerical characters.
+If you start editing, overstrike or insert mode is selected depending on the
+configuration.
+
+You can use `{' and `}' sequences in the `Name' field (see `The Game Information
+File' for a list) to alter the appearance of the name in the select window.
+For example, you could use `{B' to make the entry appear in bold.
+These sequences are ignored when using the typed-name feature and when printing
+the database.
+
+I usually use the `Type' field as follows:
+
+Arc       for arcade games;
+Adv       for text adventure games;
+Arc/Adv   for arcade adventure games;
+Sim       for simulation games;
+Str       for strategy games;
+Spo       for sports games;
+Brd       for board/card games;
+Lrn       for learning 'games';
+Dem       for games demos;
+Bld       for `building' software for games (e.g. The Quill);
+
+
+7. SELECTING A GAME
+-------------------
+Games are selected from the left window. The current game's name is inverted.
+To select another game, either move the slider and click on it with the mouse
+or use the keys:
+
+[CURSOR UP]   - Move one game up;
+[CURSOR DOWN] - Move one game down;
+[PAGE UP]     - Move a page up;
+[PAGE DOWN]   - Move a page down;
+[INS]         - Play the game;
+[CTRL][HOME]  - Move to the first game;
+[CTRL][END]   - Move to the last game;
+[CTRL][INS]   - Toggle the `selected' status of the game.
+
+If the configuration option 'Always select game' is turned on, the right
+window (description window) will change accordingly as you move around.
+
+If you have set up a selection criterion, you can use the key [CTRL] with
+
+[CURSOR UP]   - Move one selected game up;
+[CURSOR DOWN] - Move one selected game down;
+
+To toggle the `selected' status of a game with the mouse, hold down [CTRL] or
+the middle mouse button (if you have a 3-button mouse) while clicking on the
+game name.
+
+You can toggle the `selected' status of an entire range of games at once (with
+the mouse only!) by selecting the entry at the beginning of the range and then
+selecting the last entry in the range while pressing [SHIFT].
+
+`Selected' games are printed with a cyan background.
+
+The slider can be used as follows:
+- Pick up the slider and drag it to the position you want;
+- Hold down [CTRL] or the middle mouse button and click somewhere on the
+  slider bar to set the slider to that position directly;
+- Click above the slider to go up a page (repeated while pressed);
+- Click below the slider to go down a page (repeated while pressed);
+- or use the arrow gadgets to go up/down a line (repeated while pressed);
+
+You may also use the Typed-Name feature: Start typing the name of the game.
+Each time you add or delete a character, the database will be searched for the
+closest match to a game name. The selection bar will be on that entry.
+Pressing [ESC] or selecting the entry will clear the typed-name box.
+Note that you do not have to insert spaces or other typographical characters;
+these are ignored when matching.
+
+Games that can not be played in the currently used emulator are printed in red.
+
+When you double-click a game name, the game is automatically started.
+
+
+8. THE SELECTION CRITERION
+--------------------------
+At the bottom of the left window is a box with an `S' before it.
+This is the box where you can enter your selection criterion.
+Eighteen different criteria are included, which use the following names:
+
+Name Is          Type
+
+NM   Name        (AlphaNum)
+PU   Publisher   (AlphaNum)
+AU   Authors     (AlphaNum)
+BY   [special]   (AlphaNum)  Searches both Publisher and Authors
+YR   Year        (Num)
+ME   Memory      (Num)
+PL   Players     (Num)
+TO   Together    (Bool)
+PC   PC-Name     (FileName)
+TP   Type        (AlphaNum)
+PB   PlayBit     (Bool)
+OS   OrigScr     (Bool)
+OR   Origin      (AlphaNum)  Single char
+AY   AY-Sound    (Bool)
+ML   MultiLoad   (Bool)
+FD   FloppyDisk  (Num)
+LN   Language    (AlphaNum)
+SC   Score       (Num)
+
+The syntax is simple:
+AlphaNum types are followed by `=' or `!=' (or '<>') and a string, in which the
+         wildcard characters `*' and `?' may be used;
+         If you want to use characters `*' or `?' or `,' but not with their
+         special meaning, insert a `\' before it.
+         (For example `\?' is no wildcard, but a `real' question mark)
+FileName types are handled almost the same as AlphaNum types, but follow the
+         (extended) DOS convention for wildcard handling.
+Num      types are followed by `>', `<', `=', `>=', `<=' or `!=' (or '<>') and
+         a number;
+Bool     types are followed by a `=' and a `Y' or `N'.
+
+Lettercase is not important.
+
+NOTE: 'not-equal-to' can be given as both '!=' (C-style) or '<>' (BASIC-style).
+
+The single wildcard `*' in a string can be used to find empty fields, e.g.
+  pu=*    will find all entries with publisher field filled in, whereas
+  pu!=*   will find all entries with an empty publisher field.
+
+Empty numerical fields are defaulted to 0, so
+  yr<1990 will find all entries with year field filled in, released before 1990,
+  yr>0    will find all entries with year field filled in, and
+  yr=0    will find all entries with an empty year field.
+
+The PlayBit value is not really a database field. It checks the `playable' bit
+in the select window (which makes the entry red if not set).
+
+The FloppyDisk value can be used to find out which games are located on a
+particular floppy disk. Use 'fd=0' to find all games NOT on a floppy.
+
+The MultiLoad value returns TRUE if the game value is either "yes" or "48K".
+
+The Memory value is a bit tricky. The values are defined as follows:
+  "16"       - returns 16
+  "48"       - returns 48
+  "128"      - returns 128
+  "48/128"   - returns 176
+  "USR0"     - returns 129
+  "+2/+2A"   - returns 130
+  "+3"       - returns 131
+  "Pentagon" - returns 228
+
+So, to find all games that can be loaded in both 48K and 128K, use criterion
+  me=176
+To find all games that are played in 128K mode, use
+  me>=128
+To find all games that are played in 48K mode, use
+  me<=48
+Note that `USR0' applies to 128K programs that must be loaded in `USR 0' mode.
+
+Multiple criteria are joined with a `,' character (no spaces!). For example:
+
+  yr>=1985,pl=2,to=y,pc=*.tap,os=y
+
+will select all games since 1985 that can be played by two players together,
+that are in tape files and contain the original loading screen.
+
+The first character of the criterion determines what is to be done:
+If it is '+', matching entries are added to the already selected entries,
+(it works as a logical OR)
+If it is '-', matching entries are removed from the already selected entries,
+(it works as a logical NAND)
+If it is '=' or something else, only the criterion determines which entries are
+selected or deselected.
+
+For example, if you issue criterion
+  yr=1985
+and then criterion
+  +yr=1986
+all games from 1985 or 1986 are selected.
+
+- Games that cannot be played with the selected emulator are printed in red.
+- Games that match the criterion are printed with a cyan background.
+
+Apart from using the criterion, you can (de)select entries by hand: press
+[CTRL] or the middle mouse button (if your mouse has 3 buttons) while clicking
+on a game.
+
+You can toggle the `selected' status of an entire range of games at once (with
+the mouse only!) by selecting the entry at the beginning of the range and then
+selecting the last entry in the range while pressing [SHIFT].
+
+If you pass an empty selection criterion, all files will be deselected.
+
+
+9. THE CONFIGURATION
+--------------------
+The configuration window holds the following items:
+
+Remap Bright Black  : Should the ULA bug be matched and should bright black be
+                      displayed as dark black?
+Emulate Flash       : If turned on, flash is emulated when drawing Spectrum
+                      screens.
+Slow Flash          : Normally, flashing is done every 16/50th of a second
+                      (as the Spectrum itself does). If you have a slower
+                      computer or video card, this may result in loss of
+                      responsiveness. In this case, you should turn this
+                      option on, in which case flashing is reduced to a
+                      third of the time (just under a second).
+                      Both these options can be toggled from the menu strip.
+Confirm Quit        : User must confirm quit?
+Confirm Delete      : User must confirm delete?
+Confirm Overwrite   : If turned on, SGD will ask for confirmation when a file
+                      is about to be overwritten (except the database itself).
+Follow Slider       : If turned on, a combo window will be updated while you
+                      move the slider bar. If turned off, only the slider bar
+                      will be updated while moving; the result will be printed
+                      when you release the mouse button.
+                      This option should be turned off for slower computers
+                      only.
+Edit Insert         : Sets the initial edit mode for startup of edit buttons.
+                      Checked means insert mode, cleared means overstrike mode.
+Always Backup       : If this option is turned on (the default), SGD will make
+                      a backup of the database the first time that a new
+                      version is to be written. This file will have extension
+                      `.BAK'
+                      This option can be temporarily overridden from the menu.
+Always Validate     : If turned on, will auto-validate the paths of all games
+                      in the database after a (re)load or import. The default
+                      is `off'. This option can be temporarily changed from
+                      the menu.
+                      Be careful: it can take quite some time to validate if
+                      you have a large database.
+Always Cheat        : Will link the `Play' button to the `Poke' button if
+                      turned on. This option can be temporarily changed from
+                      the menu.
+Pick Best Screen    : If turned on, will link the `Screen' button to the
+                      `ScrShot' button if a screenshot file was found.
+                      (ie. overrides the screen in a snapshot).
+                      This option can be temporarily changed from the menu.
+Always Select Game  : If this option is turned on, SGD will always select the
+                      game appointed in the game select window. The default is
+                      `On'. You will want to turn it off if you have a slower
+                      computer.
+                      This option can be temporarily overridden from the menu.
+Auto-Load Tapes     : If the image is in a tape file (.TAP, .TZX, .VOC) and the
+                      emulator to be used is either Z80, X128 or Warajevo, this
+                      option will automatically start the tape loading sequence,
+                      unless the memory model is +2/+2A, +3 or Pentagon, since
+                      these models are not supported in the Z80 snapshot format.
+Start Button        : Can take the following values:
+                      0 : Disable this option (default). You will want this
+                          option disabled if your games are on floppies;
+                      1 : Start with the `Screen' button pressed;
+                      2 : Start with the `List' button pressed;
+                      3 : Start with the `ScrShot' button pressed;
+Disable Sounds      : Disable all sounds from SGD. Be careful: this does NOT
+                      turn off the sounds from the emulators (unless `Z80',
+                      `X128', or `R80' is used)!
+Force Snap Joystick : Normally, SGD will pass the (first) selected joystick in
+                      the Game Information Area to the game to be played.
+                      `.Z80' and `.SLT' type games don't allow this and will
+                      always use the joystick as set in the snapshot.
+                      Turn this option on to patch the game (into the TMP
+                      directory) with your selected joystick when playing.
+
+Emulator Type       : Type of emulator: `Z80', `JPP', `WARA', `X128', `WSPE',
+                      `ZX', `SPAN', `ZX32', `R80' or `RUS'.
+                      The displayed emulator is the `default' emulator, which is
+                      used unless an `Extension Link' (higher priority) is set
+                      or the `Emulator Override' field (highest priority) is
+                      used.
+Emulator Path       : Full path to the emulator of the chosen type.
+                      If you use a `.BAT' file, which will start the emulator in
+                      turn, make sure you pass all the parameters "%1" etc too!
+Additional Switches : Additional command line switches to be passed to the
+                      emulator of the chosen type.
+                      `Z80' seems to have problems with some of them this way.
+
+ASCII Editor Path   : The file name of the editor to be used when the `EdInfo'
+                      button is pressed. The extension (.COM/.EXE/.BAT) must
+                      be given too! If this is a batch file, "%1" holds the
+                      information file name. If the editor is not in the
+                      current directory nor in the search path, the full path
+                      must be supplied.
+ZX-Editor Path      : The full path to ZXEDIT.EXE from Claus Jahn and Andy
+                      Schraepel.
+Always Use ZX-Editor: Turn this option on if you wish to use the ZX-Editor
+                      to edit/create all your game info files.
+
+Printer             : 1 for LPT1, 2 for LPT2, 3 for LPT3.
+                      0 is used to print to a file instead. The name of the
+                      file will have the same name as the database, but with an
+                      extension `.OUT'
+Lines Per Page      : The number of lines per page that the printer uses.
+
+Blanker Installed   : Use the blanker?
+Blanker Time-Out    : Number of seconds of non-keyboard/mouse activity before
+                      the blanker activates.
+
+Extensions Links    : Here you can link a specific file type to a specific
+                      emulator. For example, if your normal emulator is `Z80',
+                      it cannot play `.SP' files. You could use the override
+                      button in the main screen for every single entry, or
+                      simply link the type to a more suitable emulator
+                      (such as the `Spanish Spectrum Emulator').
+
+Button `Save' will save the current configuration, `Reload' will load the
+configuration back from disk.
+You must explicitely press the `Use' button (or the close gadget or the [ESC]
+key) to leave the configuration window.
+
+
+9.1. THE CONFIGURATION FILE
+---------------------------
+The file SGD.INI holds the above configuration. Other values are:
+
+DragOutlineOnly     : If turned on, will update only the window's outline
+                      while a window is being dragged. This should only be
+                      turned off if you have an extremely fast processor and
+                      video card (as most windows reside in XMS)
+ResizeOutlineOnly   : If turned on, will update only the window's outline
+                      while a window is being resized. This should only be
+                      turned off if you have an extremely fast processor and
+                      video card (as most windows reside in XMS)
+StableFloppies      : Assume that Spectrum software on floppies stays there.
+                      When turned on (default), SGD will not ask to insert a
+                      floppy when you select a game. It will ask for it when
+                      you press a button (Play, Screen, List, ScrShot, Info
+                      and EdInfo). When turned off, SGD will ALWAYS want the
+                      correct floppy in the drive.
+PreLoadResources    : Load all font files at startup when set. This will save
+                      some floppy swapping when running SGD from floppies and
+                      will prevent SGD from getting out of memory a bit.
+DirectVideoControl  : Do not use the RIL if one has been detected. This will
+                      speed up all screen functions, but can cause a messed up
+                      screen if your video card cannot handle it.
+SwapInTextMode      : If set, swapping out sets the video mode to MODE 80, no
+                      matter what the startup video mode was (when exiting SGD,
+                      the original video mode is restored). At least `Z80'
+                      needs this or will generate an EMM386 exception error...
+QuitInTextMode      : If set, the video mode is forced to MODE 80 on exit of
+                      SGD, no matter what the startup video mode was.
+                      Some very strange video cards with bugs in their BIOS
+                      require this option.
+
+NextFloppyDiskId    : This is the next floppy number to be used. You should
+                      NOT edit this field by hand!
+
+UseGeniusMouseHiding: If turned on, will use the old-style Genius mouse hiding
+                      function. Turn it on only when you have a Genius mouse
+                      driver with version 7.02 or below.
+                      This is no longer needed.
+NoLocalMouseHiding  : If turned on, will always fully hide the mouse when a
+                      request is made to hide in a specific range.
+                      This should only be used when you have a really weird
+                      mouse driver (e.g. in Windows NT) that messes up the
+                      screen. It will slow down the GUI considerably, unless
+                      you run under a 32-bit OS.
+ForceMouseRelease   : To be used only if you have a weird mouse that seems to
+                      be lost (doesn't work in a next application) if you quit.
+SwapMouseButtons    : If turned on, will swap the left and right mouse buttons.
+SnapMouseDefault    : Turn it on if you want the mouse to move to the default
+                      button if a window/requester is drawn or if an edit
+                      button is finished with the [ENTER] key (Default is off).
+DoubleClickInterval : The maximum time elapse in milliseconds between two mouse
+                      clicks to be recognised as a double-click.
+InitialContPushDelay: The initial delay in milliseconds when keeping a
+                      continuous push button pressed (e.g. the arrow buttons on
+                      sliders).
+MouseSpeedSetting   : Contains 3 integers, separated with commas;
+                      Horizontal mickeys, Vertical mickeys and Double speed
+                      threshold. The first 2 values determine how much the mouse
+                      pointer moves for each inch you move the mouse (higher
+                      value is faster), the last value determines how many
+                      pixels the mouse must move before moving at double speed
+                      (lower is sooner).
+                      This setting is initialized by your mouse driver normally,
+                      but can be changed here. The defaults are usually 8,16,64.
+                      To always use the values as setup in your mouse config,
+                      remove all values after the '='.
+
+GIFPath             : The directory where the GIF files of the Spectrum screen
+                      images (created with [ALT][G]) will be stored;
+                      You can put GIF files in a directory relative to your
+                      games by inserting a `$' character before the path name.
+                      For example, if you use only `$', the GIF files will be
+                      put in the same directory as the game. If you use `$GIF',
+                      the files will be put in a subdirectory `GIF' from your
+                      game location.
+Z80SnapNeedsTape    : This string is searched for at the end of the game name
+                      if this game is in a `.Z80' or `.SNA' file and the chosen
+                      emulator is Z80, Warajevo or X128.
+                      See `MultiLoad Games' further in this document.
+Z80SnapNeedsVOC     : Does the same as Z80SnapNeedsTape, but when the rest of
+                      the program is in a `.VOC' file.
+                      See `MultiLoad Games' further in this document.
+Z80TapesOnly        : Turn this option off if you have both `.TAP' files created
+                      with Z80 and `.TAP' files created with Warajevo. The
+                      default is on (only Z80).
+                      (see below)
+ValidateAtEmulChange : If turned on, when changing emulator, SGD will also test
+                      if the game is actually there as part of the `playable
+                      game' determination.
+PhonebookSorting    : If turned on (default, as it was with all previous
+                      versions), the sorting of titles is done with an algorithm
+                      known as `phonebook' or `dictionary' sorting.
+                      Only alpha-numerical characters are considered when
+                      sorting. Spaces, commas, etc are skipped.
+                      If this option is turned off, every character is
+                      considered while sorting.
+                      The 'typed name' feature uses the same algorithm.
+                      If you change this option, you will want to use the
+                      `Resort database' menu option.
+AllFilesInOneDir    : If turned on, all extra game related files (screenshots,
+                      info, pokes and inlays) are searched for in the game's
+                      directory itself rather than the normal subdirectories.
+                      This is useful only for several emulation CD's.
+GIFViewerPath
+GIFViewerOptions
+JPGViewerPath
+JPGViewerOptions    : All info needed to view TZX `Custom Info - Picture'
+                      blocks and game inlay files.
+Compressor          : The compression program to be used when using the
+                      `Compress games' option from the menu strip.
+                      (see below)
+CompressOptions     : Any options needed by the above compression program.
+                      If more than one option is needed, the argument must be
+                      quoted.
+
+AddLanguage         : Add a language to the `Language' drop-down list;
+                      (see below)
+
+UseCustomPalette    : See `Using a Custom Palette' below.
+CustomColorXX       : See `Using a Custom Palette' below.
+
+The above parameters must be filled in by hand.
+
+GameDir             : All the directories where games from the database are
+                      found. GameDir entries are automatically inserted if you
+                      select files from the file requester.
+
+This file can be edited with any ASCII editor, but is also rewritten if you
+change the configuration.
+
+
+10. THE MENU STRIP
+------------------
+SGD has a menu strip a la Amiga. For users unfamiliar with the Amiga, I'll
+explain how it works with the mouse:
+
+- To use the menu strip, press the right mouse button. You'll see the strip
+  at the top line of the screen;
+- While keeping the right button pressed, move it to one of the words in it.
+  A roll-down menu will appear;
+- While still keeping the right mouse button pressed, move the mouse over the
+  menu entry you wish to activate. Entries with an `>>' at the end have a
+  submenu attached;
+- When the mouse highlights the entry you want, release the right mouse button;
+- If you don't want one of the options, move the mouse somewhere in the void
+  and release the right mouse button there.
+- Some menu entries have key shortcuts. These are shown at the end of a line.
+
+It can also be controlled with the keyboard:
+
+[F9]             - start/stop the menu;
+[ESC]            - stop the menu;
+
+While only a menu is shown, without any option highlighted, use:
+[CURSOR LEFT]    - One menu section left;
+[CURSOR RIGHT]   - One menu section right;
+
+Otherwise:
+[CURSOR UP]      - One option up;
+[CURSOR DOWN]    - One option down;
+[CURSOR LEFT]    - Enter submenu (if available);
+[CURSOR RIGHT]   - Leave submenu;
+
+[PAGE UP]        - Go back to the top (menu name);
+[PAGE DOWN]      - Go to the last option;
+
+[ENTER]          - Activate the highlighted option.
+
+The menu strip has the following entries:
+
+1. Database
+   - New               : Remove the current database from memory and start with
+                         an empty one. You will be asked to save first if you
+                         changed anything;
+                         Notice that the database name will be `NONAME.DAT'.
+                         When saving a new database, you should use the menu
+                         option `Save As...' to give it a proper name.
+   - Open ...          : Remove the current database from memory and open a new
+                         one. You will be asked to save first if you changed
+                         anything;
+   - Save As ...       : This menu has a submenu:
+     - All             : Save the entire database to a new file;
+     - Selected        : Save only the selected entries to a new file;
+   - Print             : This menu has a submenu:
+     - All             : Prints the entire database (the same as the button);
+     - Selected        : Prints only the selected entries;
+   - Import database   : Join another database in memory. The new database will
+                         be simply added, so the result will be unsorted.
+                         Afterward, the selection bar will be on the first
+                         imported line.
+   - Resort database   : Resort the database. All entries will be sorted by
+                         game name. This option is generally needed when you
+                         import a database or if you change the
+                         `PhonebookSorting' configuration option.
+   - Validate database : This menu has a submenu:
+     - All             : Validate the entire database;
+     - Selected        : Validate only the selected entries of the database;
+   - Compress games    : This menu has a submenu (see below):
+     - All             : Compress all games in the database;
+     - Selected        : Compress only the selected games of the database;
+   - Search for games  : After giving a starting directoy, SGD will search the
+                         directory and all subdirectories for games.
+                         The raw PC-Name will be used as game name.
+                         `GameDir' entries are automatically added.
+   - Find new games    : You will get a requester to select which `GaneDir'
+                         directories are to be searched for game files that are
+                         not yet in the database. All found games can be added
+                         to the database. If you check the button 'Use File
+                         name as Game name', the raw PC-Name will be used as
+                         game name.
+                         Be careful: it can take quite some time to search if
+                         you have a lot of new games and/or a large database.
+   - View screenshot   : This allows you to view a `.SCR' file. A seperate
+                         window will be opened with a `Make GIF' button
+                         attached. Created GIF files will be put in the same
+                         directory as the `.SCR' file, no matter what value you
+                         used in the `GIFPath' configuration!
+
+   - Backup database   : If checked, will create a backup of the `old' database
+                         before writing a new one (to temporarily override the
+                         `Always Backup' option from the configuration window).
+   - Auto-validate     : If turned on, will auto-validate the paths of all games
+                         in the database after a (re)load or import. The default
+                         is `off'. Be careful: it can take quite some time to
+                         validate if you have a large database.
+
+   - Quit              : Guess...
+
+2. Edit
+   - Delete selected   : Remove all selected entries at once.
+   - Invert selected   : Invert the selected games - selected games are now
+                         deselected and vice versa;
+   - Duplicate Entry   : Duplicate the currently selected entry;
+   - Create GIF-file   : Convert the currently displayed Spectrum screen image
+                         to a GIF file, which will be created in the directory
+                         you assigned in the configuration file (the `GIFPath'
+                         value). The name of the image will have the same
+                         PC-name as the game, with extension `.GIF'
+   - Create SCR-file   : Convert the currently displayed Spectrum screen image
+                         to a screenshot file, which will be created in a
+                         subdirectory `SCRSHOT'. See `Game Screenshot Files'
+                         for more information.
+                         This option is disabled when the `ScrShot' button on
+                         the screen is active, unless an `.SLT' file is being
+                         handled. An `.SLT' file creates a `.SCR' file which
+                         will not be viewable from the `ScrShot' button (as this
+                         button takes the screenshot as found in the `.SLT' file
+                         itself).
+   - Fix TAP-file      : Remove noise parts (blocks with zero length) from the
+                         selected game `.TAP' file.
+                         Z80 crashes when it encounters such a block and it's
+                         not nice to have noise anyway.
+                         This option is meant for Z80-style `.TAP' files only!
+   - View BASIC-part   : View the BASIC part from the snapshot. The listing is
+                         shown in a seperate window, together with 2 buttons:
+                         Drop Colors - Remove the colors from the output;
+                         Remap UDGs  - Use UDGs as they are in the snapshot.
+                         Save        - Look at the subject `Saving BASIC Blocks'
+                                       further in this document.
+   - View SCREEN-part  : View the SCREEN part from the snapshot. 
+                         (see `.TAP Catalogs' below about this window)
+   - View memory dump  : View the snapshot or selected TAP/MDR block as a memory
+                         image dump in both HEX and ASCII.
+   - TZX options       : This menu has a submenu:
+     - Insert Hardware Type : Insert and edit a `Hardware Type' block;
+     - Edit Hardware Type   : Edit the appointed `Hardware Type' block;
+     - Insert Archive Info  : Insert and edit a `Archive Info' block;
+     - Edit Archive Info    : Edit the appointed `Archive Info' block;
+     - Insert Pokes         : Insert and edit a `Pokes' block;
+     - Edit Pokes           : Edit the appointed `Pokes' block;
+   - Call TAPER        : When the current game resides in a tape file or is a
+                         .Z80 or .SNA snapshot, the external program TAPER can
+                         be started to edit the tape file or play it to a real
+                         Spectrum.
+                         (see `Using TAPER in Conjunction with SGD' below)
+
+3. System
+   - Disable sounds    : Turn all sounds from SGD on/off. Has the same purpose
+                         as the command line option `-q'.
+   - Sound volume      : Set the volume of the soundcard. This adjusts the sound
+                         volume of emulators that use a soundcard (e.g. `X128').
+   - Emulate flash     : Emulate flashing characters when drawing a Spectrum
+                         screen (see `The Configuration File' for details).
+   - Slow flash        : Slow down the flashing timer to a third.
+                         (see `The Configuration File' for details).
+   - Always cheat      : Link the `Play' button to the `Pokes' button.
+                         (see `The Configuration File' for details).
+   - Best screen       : Link the `Screen' button to the `ScrShot' button.
+                         (see `The Configuration File' for details).
+   - Always select     : Always select the appointed game when using the
+                         keyboard (see `The Configuration File' for details).
+
+For those people who might wonder why you could possibly need more than one
+database, I use five databases:
+
+TEXTADV.DAT  - For all text adventures;
+GAMES.DAT    - For all other games and demos of games;
+DEMOS.DAT    - For all other demos;
+UTILS.DAT    - For all utilities;
+MISC.DAT     - For all cheats, spoilers and tapezines;
+
+
+11. .TAP/.LTP CATALOGS
+----------------------
+A tape file reports the following information per file:
+
+  1. (Expanded) Spectrum file name;
+  2. Type of file: PROG, CODE, A-AR, N-AR, HEAD, ????;
+  3. Depending on the type:
+     PROG (Program)                 : Auto-start line or ----- if none;
+     CODE (Code)                    : Startaddress of the code;
+     A-AR (Alphanumerical Array)    : -
+     N-AR (Numerical Array)         : -
+     HEAD (Headerless block)        : The Flag byte;
+     ???? (Unknown block)           : The Type byte;
+  4. Length of the block.
+
+Tape catalogs are of course printed in the original Spectrum font.
+Blocks with zero length are reported as being noise (multiple blocks are
+reported only once).
+You can remove this noise with the menu option `Fix TAP-file' (under `Edit').
+
+When a tape index is on the screen, you can double-click on a block if it is
+of type CODE or HEAD. This opens a window where the selected block is
+displayed as though it was a screen. This window also contains a `Make GIF'
+and `Make SCR' button. To close it, you must either press [ESC] or use the
+close gadget. This is useful for tape files that contain multiple screens.
+A lot of tapes also have a screen with some bytes following it (remember that
+a Spectrum screen is 6912 bytes), so it cannot be found when you press the
+`Screen' button from the main screen. This option allows you to still watch
+that screen!
+
+The `Make SCR' button is used to make the shown screen a screenshot file,
+which can be shown from the main window with the `ScrShot' button.
+Notice that you cannot handle the tape combo window from the keyboard, as
+this would conflict with the Game Select Window.
+
+Sometimes, the startaddress of the block is not exactly the startaddress of
+the Spectrum display area. I have some `.TAP' files where some bytes before
+this address have been saved as well. This results in a `shifted' picture.
+You will find a fine-adjust thingy in the window where you can adjust this
+offset.
+
+If you double-click on a PROG block, a window is opened where you can view the
+BASIC listing (of course in the original Spectrum font).
+The color attributes can be removed, so you can view it all.
+UDG characters are in a different font and underlined, so you can see them
+easily.
+There is a `Save' button attached as well. Look at the subject `Saving BASIC
+Blocks' further in this document.
+
+
+12. .MDR CATALOGS
+-----------------
+A microdrive file reports the following information:
+
+- Name of the cartridge, followed by an empty line. If the cartridge is write
+  protected, reports `(Write protected)' in blue after it;
+- Per file on the cartridge:
+  1. (Expanded) Spectrum file name;
+  2. Type of file: PROG, CODE, A-AR, N-AR, ????;
+  3. Depending on the type:
+     PROG (Program)                 : Auto-start line or ----- if none;
+     CODE (Code)                    : Startaddress of the code;
+     A-AR (Alphanumerical Array)    : -
+     N-AR (Numerical Array)         : -
+     ???? (Unknown block)           : The Type byte;
+  4. Length of the block (Unless type ????).
+  The files are sorted alphabetically (like the original);
+  Hidden files are reported in red.
+- An empty line, followed by the empty space in K, rounded down.
+
+Microdrive catalogs are of course printed in the original Spectrum font.
+
+Just like the .TAP indices, you can select blocks to view (see right above).
+
+
+13. .TZX CATALOGS
+-----------------
+The new tape file format .TZX stores the tape blocks in exactly the same way as
+the original tape. This makes the format the ultimate storage choise.
+Several types of blocks are supported, including informational blocks.
+SGD doesn't handle all these types, as that's what `TAPER' is for.
+Contrary to TAP/LTP/MDR file types, blocks are reported splitted into header and
+data.
+
+- Header blocks are reported (in black) with the following info:
+  1. (Expanded) Spectrum file name;
+  2. Type of file: PROG, CODE, A-AR, N-AR, ????;
+  3. Depending on the type:
+     PROG (Program)                 : Auto-start line or ----- if none;
+     CODE (Code)                    : Startaddress of the code;
+     A-AR (Alphanumerical Array)    : -
+     N-AR (Numerical Array)         : -
+     ???? (Unknown block)           : The Type byte;
+  4. Length of the block (Unless type ????).
+- (Pure) Data blocks are reported (in black) with the length of the block.
+- All other special types are reported in blue, between brackets.
+  Where interesting, the length of the block is reported as well.
+
+Just like the .TAP indices, you can select blocks to view (see right above).
+This is done by clicking on the data block rather than the header block.
+If the accompanying header suggests a BASIC block, the data will default to
+BASIC view. Otherwise the default will be screen image view.
+Informational blocks (in blue) cannot be displayed (yet), except blocks
+`Hardware Type', `Archive Info', `Custom Info - Instructions' and `Custom Info -
+Spectrum Screen'.
+
+There's also a special submenu for TZX files under `Edit'.
+The `Archive Info' block editor is special in that it is able to import/export
+field data from/to SGD's entry data.
+
+
+14. THE GAME INFORMATION FILE
+-----------------------------
+You can add information files to your game files. It has the same name as the
+game file, but with extension `.TXT' (ASCII) or `.ZED' (ZX-Editor) and is to be
+found in a subdirectory `INFO' (unless configuration option `AllFilesInOneDir'
+is turned on).
+For example: A game with full path:
+
+    c:\spectrum\game.z80
+
+will have an ASCII info file:
+
+    c:\spectrum\INFO\game.TXT
+                ----      ---
+or ZX-Editor info file
+
+    c:\spectrum\INFO\game.ZED
+                ----      ---
+
+ZX-Editor files are searched for first, ASCII files are checked otherwise.
+
+This file can contain any information you like, such as:
+
+- Goal of the game;
+- Playing keys;
+- Ratings, etc.
+
+The file is shown if you press the `Info' button and can be edited/created
+if you press the `EdInfo' button. The editor to be used must be supplied in
+the configuration window. Before the editor is started, a test is done if the
+`INFO' subdirectory exists. If it does not exist yet, you will be asked if it
+should be created.
+Lots of Spectrum game files from the internet have an information file added.
+Just check the extension and you can view this file!
+
+ZX-Editor files:
+
+These are the files created with ZX-Editor from Claus Jahn and Andy Schraepel
+and can contain just about anything you like, ranging from normal text to
+complete graphics.
+If you want to always create info files with this excellent editor, turn the
+option `Always Use ZX-Editor' on in the configuration.
+IMPORTANT NOTE: ZX-Edit does not appear to work under anything but plain DOS.
+
+ASCII files:
+
+An information file uses the following format:
+
+- The length of each displayed line is 80 characters (special codes are not
+  counted). If a line is longer, it wraps (at word boundaries) to the next
+  line.
+- Special codes can be inserted to control color and attributes of the
+  characters in the file:
+
+  {B   Start bold printing;
+  {I   Start inverted printing;
+  {U   Start underlined printing;
+  {T   Start italics printing;
+  {L1  Start ink-blinking (PC-style);
+  {L2  Start invert-blinking (Spectrum-style);
+  {+n  Change the foreground color to color n (see below);
+  {++  Restore the foreground color;
+  {+-  Change the foreground color to the background color;
+  {+*  Change the foreground color to the bright color;
+  {+/  Change the foreground color to the non-bright color;
+  {-n  Change the background color to color n (see below);
+  {--  Restore the background color;
+  {-+  Change the background color to the foreground color;
+  {-*  Change the background color to the bright color;
+  {-/  Change the background color to the non-bright color;
+
+  }B   End bold printing;
+  }I   End inverted printing;
+  }U   End underlined printing;
+  }T   End italics printing;
+  }L   Turn blinking off;
+  }N   Restore all variables, this is the same as }B}I}U}T}L{++{--
+
+  All other `{' and `}' sequences loose their sequence character, so you
+  should use:
+
+  {{   To get a single `{' character (`}{' will also do), or
+  }}   To get a single `}' character (`{}' will also do).
+
+  If you select both bold and italics, the result will be bold only.
+  Chosing a blink type automatically ends the other blink type.
+
+  Color values may take the values (* def. fore-, # def. background):
+
+  COLOR          VALUE       COLOR          VALUE
+
+* Black          0           Dark grey      8
+  Blue           1           Light blue     9
+  Green          2           Light green    A
+  Cyan           3           Light cyan     B
+  Red            4           Light red      C
+  Magenta        5           Light magenta  D
+  Brown          6           Yellow         E
+# Light grey     7           White          F
+
+  Please note that this is in VGA order, not Spectrum order!
+
+  The following key-equivalents are available while viewing this file:
+
+  [CURSOR UP]   - Go one line up;
+  [CURSOR DOWN] - Go one line down;
+  [PAGE UP]     - Go one page up;
+  [PAGE DOWN]   - Go one page down;
+  [ESC]         - Stop viewing.
+
+  SLT Images:
+
+  SLT files use an extension to store this information within the snapshot
+  file itself.
+  It is currently NOT possible to edit this, as the format is still undecided.
+  I used the format proposed by Damien Burke:
+
+  1. A line is max 64 characters in length;
+  2. End-of-line is done with a single CR (as with e.g. Tasword)
+  3. Bold is done by surrounding a string with `<B>' and `</B>' sequences;
+     Underline is done by surrounding a string with `<U>' and `</U>' sequences;
+
+  As soon as the format to be used is decided on, I'll adjust to this.
+
+  If no information object is present in a .SLT file, you can set up a normal
+  information file (in the usual format) which will be used as usual.
+
+
+15. THE GAME SCREENSHOT FILE
+----------------------------
+You can add a screenshot file to your game files. It has the same name as the
+game file, but with extension `.SCR' and is to be found in a subdirectory
+`SCRSHOT' (unless configuration option `AllFilesInOneDir' is turned on).
+For example: A game with full path:
+
+    c:\spectrum\game.z80
+
+will have a screenshot file:
+
+    c:\spectrum\SCRSHOT\game.SCR
+                -------      ---
+
+Screenshot files can be created in different ways:
+1. From within Z80. Press F10, choose `X - Extra options' and `Save screen or
+   memory block'. Be sure to use the same name as the snapshot. You will have
+   to move the created file into the screenshot directory yourself.
+2. While viewing a game screen (the `Screen' button pressed): select menu
+   entry `Make SCR-file' ([ALT][K]);
+3. While viewing a TAP block image: select button `Make SCR'.
+
+Before a screenshot a created, a test is done if the `SCRSHOT' subdirectory
+exists. If it does not exist yet, you will be asked if it should be created.
+
+As a lot of snapshots miss their loading screen, the `Screen' button will not
+display it for you. This option allows you to still maintain these screens.
+I found a lot of games on the internet have a screenshot file in the archive,
+which can be viewed in this manner.
+
+SLT files use an extension to store this information within the snapshot file
+itself.  
+If no screenshot object is present in a .SLT file, you can set up a normal
+screenshot file which will be used as usual.
+
+If you turn the `Best screen' configuration option on and you created a
+screenshot file, this file will be displayed as well when you press the
+`Screen' button, thus overriding a possibly ugly multifaced screen.
+
+
+16. THE GAME INLAY FILE
+-----------------------
+You can add inlay files to your game files. It has the same name as the
+game file, but with extension `.JPG' or `.GIF' and is to be found in a
+subdirectory `INLAYS' (unless configuration option `AllFilesInOneDir' is turned
+on).
+For example: A game with full path:
+
+    c:\spectrum\game.z80
+
+will have an inlay file:
+
+    c:\spectrum\INLAYS\game.JPG
+                ------      ---
+or
+
+    c:\spectrum\INLAYS\game.GIF
+                ------      ---
+
+JPG files are searched for first, GIF files next. Only one file is used for a
+game.
+This file may contain any picture in any resolution you wish, since you have
+to provide an external viewer yourself. If no viewer has been defined yet, a
+wizard will pop up asking you for the location.
+Examples of pictures can be cassette inlay scans or scanned maps as found in a
+magazine.
+
+
+17. THE GAME POKES FILE
+-----------------------
+You can add a pokes file to your game files. It has the same name as the
+game file, but with extension `.POK' and is to be found in a subdirectory
+`POKES' (unless configuration option `AllFilesInOneDir' is turned on).
+For example: A game with full path:
+
+    c:\spectrum\game.z80
+
+will have a pokes file:
+
+    c:\spectrum\POKES\game.POK
+                -----      ---
+
+Pokes files are created with the `EdPoke' button on the main screen and can
+(only) contain the famous multiface pokes.
+
+A lot of poke types need more than one poke operation to be done, so the
+pokes window is set up as follows:
+1. On the left side are all poke descriptions,
+2. On the right side are all pokes that are needed to fullfill the currently
+   selected poke description.
+
+The following values are needed for a poke:
+
+1. The memory bank;
+   48K machines did not have banks, so this field is ghosted when you create
+   a pokes file for such a game.
+   128K games need this field to find out into which bank it should go.
+   Notice that SGD will automatically insert the correct value when you give
+   the address. You only need to change it by hand if explicitely mentioned.
+
+2. The address (must be >= 16384 of course);
+
+3. The poke value to activate the poke;
+   To the right of this button is a cycle button. If you press this button,
+   the value will change to `ASK'. This means that SGD will ask for the value
+   when you start the poked game (`Poke' button). This is useful for pokes such
+   as startlocations or the number of lives you want.
+
+4. The original value, which de-activates the poke;
+   This value can be retrieved from the snapshot by pressing the `Fetch' button
+   next to this field.
+   Notice that SGD will automatically fetch the correct value when you give the
+   address.
+
+To update a description or poke, just double-click the entry.
+
+Once you have set up a pokes file, you can start a game in two ways:
+1. The ordinary way, with the `Play' button or double-clicking, or
+2. With the `Poke' button (just below the `Play' button).
+
+When you press the `Poke' button, you will get a new window, containing all
+pokes descriptions you entered. You can select the pokes you want to be
+active in the usual way and then press the `Play' button in this window.
+The game will then be copied to your `TMP' directory (see the note on the `TMP'
+directory) with all selected pokes active, the game is started and when you
+leave the emulator, the poked game is removed again.
+All pokes with the Set field `ASK' will be asked at this time.
+Cancelling this input requester will disable the poke.
+
+Notice that all pokes that you did NOT select are poked at their Original
+value. This is because I have some games that were already poked when put on
+the internet (so the `Fetch' key will provide you with the poke value). If
+you know the original value, this allows you to `remove' these pokes you
+don't want!
+
+When you have the option `Always cheat' on and start a game through `Play',
+cancelling the poke select requester will allow you to play the game without
+any pokes.
+
+Important notes:
+- You can only use pokes on snapshot files (`.Z80', `.SNA', `.SNP', `.SEM',
+  `.SP' and `.SLT') and not on any other type (`.TAP', `.LTP', `.VOC', `.MDR'
+  and `.TZX'), as these cannot be poked beforehand;
+  Notice that you can create a pokes file for these types. If one is found,
+  the `Poke' button will be kept ghosted, but the button text will be printed
+  in normal font in stead if bold to indicate this.
+- It largely depends on the moment in the game when the snapshot was taken
+  whether the pokes will work or crash the game.
+  I found quite a lot of snapshots that were taken immediately after the game
+  was loaded, but the game auto-unpacks first (protection), so the pokes will
+  not work yet. If you experience this, you should re-snap the game in a
+  later point and use this snapshot instead (although you will usually have a
+  worse looking snapshot...)
+- `.SLT' files use an extension to store this information within the snapshot
+  file itself.
+  It is currently NOT possible to edit this, as the format is still undecided.
+  If no pokes object is present in a .SLT file, you can set up a normal pokes
+  file which will be used as usual.
+
+
+18. DATABASE VALIDATION
+-----------------------
+Each time you select a game or change the path to a game, the entry is
+re-validated. Validation includes finding the length of the file, finding and
+testing the consistency of the filetype and adjusting the `playbit' of the game.
+You can force SGD to automatically re-validate each database as it is loaded
+or imported by turning on the `Auto-validate' menu entry (temporarily)
+or the `ValidateAfterLoad' option in the configuration file (permanent).
+You can also validate the current database by hand from the menu strip.
+(see above)
+My guess is that you will not have to validate very often (probably never),
+and you should avoid it as much as you can, as it is a very timeconsuming
+operation. The only reason to use it is when you reorganize the locations of
+your game files.
+
+
+19. GAME COMPRESSION
+--------------------
+If you're a bit like me and want to maintain an internet Spectrum archive, you
+will need to have your games compressed. This is done from the menu strip.
+First you must define the compressor program to be used, in your configuration
+file (`Compressor'). If the compressor needs extra options, these can be defined
+as well (`CompressOptions'). The usual compressor will be PKZIP (copyright by
+PkWare Inc.), which is normally used on the internet.
+A compressed game contains all material related to that game, i.e. if you had
+a screenshot or a game information file, or the next levels are in a `.VOC' or
+`.TAP' file or (level-loader) `.DAT' files, these are all included in the
+archive.
+When you select the compress option from the menu strip, you will see a
+requester where you must confirm the action. Be sure that you want to do it, as
+there is no way to back out once it has been started!
+Each game is written to its own archive file, where the filename will be the
+game PC-name, with an extension depending on the used compressor.
+The usual location for compressed games is in a subdirectory `ZIPPED' from your
+games (like the `INFO' and `SCRSHOT' subdirectories). In the confirmation
+requester, you can choose a custom directory if this is not where you want them.
+
+
+20. SUPPORTED MODELS AND FILE TYPES
+-----------------------------------
+
+Models:
+
+Z80     : 48, 128
+JPP     : 48
+Warajevo: 48, 128, +2 (TS2068)
+X128    : 48, 128, +2, +3, Pentagon (+2A, Scorpion)
+WSpecEm : 48
+ZX      : 48
+Spanish : 48
+ZX-32   : 48, 128
+R80     : 48, 128, +2, Pentagon
+RUS     : 48, 128, Pentagon
+YUD     : 48, 128, Pentagon, Scorpion
+RealSpec: 16, 48, 128, +2, +3, Pentagon (+2A, Scorpion)
+
+File Types:
+
+Z80     : .Z80 .TAP .MDR .VOC .SNA .SLT .TZX (.SCR .DAT)
+JPP     : .SNA
+Warajevo: .Z80 .TAP .MDR .VOC .SNA .SLT .SP  .LTP .TZX (.TAP)
+         (.VOC .SNA .SLT .SP .LTP and .TZX non-native)
+X128    : .Z80 .TAP .MDR .VOC .SNA .SLT .TZX .TRD .DSK (.SCR .DAT)
+WSpecEm : .Z80 .TAP .VOC .SNA .SLT .SEM .SP (.SCR .DAT)
+         (also .ACH .PRG .SIT .SNX .RAW .ZX and .ROM !)
+ZX      : .SNA .SNP .TAP .LTP
+Spanish : .SP
+ZX-32   : .Z80 .SNA .TAP .TZX .DSK
+R80     : .Z80 .SNA .TAP .TZX .TRD (.DAT .POK)
+RUS     : .Z80 .SNA .TRD (.TAP)
+YUD     : .Z80 .SNA .TRD .FDI
+RealSpec: .Z80 .SNA .TAP .TZX .TRD .MDR .DSK (.POK)
+         (also .CSW .WAV .MGT .IMG .SCL .MBD .OPS .D80 .HDF .HDD !)
+
+Notes: Z80 supports `.SLT' from version 3.04
+       Z80 supports `.TZX' from version 4.00
+       Z80 supports Warajevo-style `.TAP' since version 4.00
+       Warajevo has its own `.TAP' format, incompatible with Z80 (see below)
+       Warajevo supports Z80-style `.TAP' natively from version 2.0
+       Warajevo can read .Z80 files through V3.00, but writes V2.01 files
+       Warajevo supports `.MDR' from version 1.50
+       Warajevo supports `.TZX' (non-natively) from version 2.0
+       X128 can read .Z80 files through V3.00, but writes V2.01 files
+       X128 supports `.MDR' from version 0.5
+       X128 supports `.TZX' from version 0.7
+       X128 supports `.TRD' from version 0.8
+       WSpecEm requires MS Windows
+       WSpecEm only supports 48K programs (expect 128K in the near future!)
+       ZX only supports 48K programs
+       Spanish Spectrum emulator only supports 48K programs
+       ZX-32 requires either MS Windows95 or MS Windows NT
+       ZX-32 supports `.TZX' from version 1.02
+       R80 supports `.TRD' from version 0.04
+       RealSpectrum supports both reading from and writing to `.TZX' files
+
+
+20.1. NOTES ON USING THE `Z80' SPECTRUM EMULATOR
+------------------------------------------------
+Z80 is the only shareware emulator, but the emulation is so good that it's
+well worth registering.
+This emulator has a `-g' (quiet) switch, which is also supported by SGD.
+Special considerations:
+1. EMS should be installed as well, as Z80 needs it for better 128K emulation.
+2. SGD always keeps about 55Kb in low memory (DOS/4GW itself does this).
+   As Z80 is a very low-memory-hungry emulator, make sure you enable EMS.
+   You may also need to use the option `-xt' (low on memory) option, but this
+   only works when inserted into the file Z80.INI
+3. Be careful with the `-n' switch (no Interface I). If you have this switch
+   in your Z80.INI, you will not be able to play `.MDR' files!
+4. Z80 appears to have problems with switches on the command line (`Additional
+   Switches'), so you should try to keep these in your Z80.INI
+5. Since Z80 allows specifying both a snapshot and a tape file on the command
+   line, tape auto-loading is possible (see `The Configuration' for more info),
+   as well as having multiload games starting in a snap and continueing in a
+   tape;
+6. Z80 v3.05+ and SGD in Win95 do not go along at all. I experienced full crashes
+   on exit of Z80 when called from within SGD. I can't tell what goes wrong,
+   since Z80 never exits (although Z80 alone works perfectly!)....
+   This problem is version dependant and seems to be related to Z80 v3.05 and up.
+   If you experience this problem, take the following actions:
+   - Place the file Z80STUB.EXE from the SGD package in the same directory as
+     where your Z80.EXE file resides. This stub is automatically used when SGD
+     detects Windows, so you can keep the start name to Z80.EXE.
+   - Since Win95 will think that SGD keeps the soundcard locked while executing
+     an emulator (which it doesn't!), you will need to run SGD with parameter
+     `-S' (no soundcard). Do NOT use switch `-W', or Win95 will lock up your
+     machine!
+7. WinZ80 only accepts a filename as command line parameter. This works
+   perfectly but disables use of the auto-load, joystick preselection or
+   snap+tape features.
+
+
+20.2. NOTES ON USING THE `WARAJEVO' SPECTRUM EMULATOR
+-----------------------------------------------------
+The Warajevo ZX Spectrum Emulator is the emulator with most options. There are
+some important things to consider when you use this emulator though:
+1. This emulator has 2 seperate emulator executables: `SPEC48.EXE' and
+   `SPEC128.EXE'. When you setup the path to this emulator (From the
+   configuration window or in the configuration file after `EmulatorPathWAR'),
+   you MUST choose either one of these executables.
+   Depending on your choise, SGD does the following:
+   SPEC128.EXE : SGD will ALWAYS start the 128K Spectrum;
+   SPEC48.EXE  : SGD will start the 48 or 128 Spectrum depending on the memory
+                 type field of the game.
+2. This emulator has a lot of (command line) options to improve emulation.
+   Like the authors say in their documentation, each game will probably run
+   best with a dedicated set of options passed.
+   SGD supports only 1 set of options (`Extra Options'). You should choose the
+   best overall combination. You can also setup a configuration file (see the
+   Warajevo documentation) which is used in the same way.
+   A lot of great features are lost when using SGD in stead of the database
+   program supplied with Warajevo, but a lot of other features are returned.
+   It's up to you which one you decide to use.
+3. I would like to stress that `.TAP' files from Warajevo are NOT compatible
+   with the `.TAP' files from Z80 (as you usually find them on the internet)!
+   SGD supports only the Z80 version, so don't try to `List' a `.TAP' file
+   created with Warajevo.
+   To reduce possible confusion, I created the configuration option
+   `Z80TapesOnly'. If turned on (default), all `.TAP' files on the database are
+   considered created with Z80. If turned off (must be set by hand), you are
+   responsible for remembering which `.TAP' files belong to which emulator.
+4. You need version 1.5 to be able to play microdrive (`.MDR') files.
+5. You need version 2.0 to be able to play `.TZX' files.
+   Also, since v2.0, native support for Z80-style `.TAP' files has been added.
+6. Since Warajevo allows specifying both a snapshot and a tape file on the
+   command line, tape auto-loading is possible (see `The Configuration' for more
+   info), as well as having multiload games starting in a snap and continueing
+   in a tape;
+   Warajevo also has a switch `/A' to auto-load tapes. However, games that must
+   load in USR 0 mode are not recognised (of course), which SGD does!
+7. Warajevo allows loading of non-native formats. Such images are on-the-fly
+   converted to a native format, but this can only be done through the main
+   program, named WARAJEVO.EXE. If you launch images of types `.SNA', `.SP',
+   `.LTP', `.SLT', `.VOC', `.TZX' this main program is invoked instead.
+   The memory type and joystick preselection options are then written in the
+   file SPECSIM.CFG as described in the Warajevo documentation.
+8. If you wish to use Warajevo from a CD-ROM, make sure you set the environment
+   variable `WARAJEVO' to create temporary files elsewhere. The full syntax of
+   this variable is
+     WARAJEVO=[G|T] tmp-path
+   where `[G|T]' is either `G' (for graphical) or `T' (for text, the default)
+   user interface and `tmp-path' is the new path.
+   For example, use
+     set WARAJEVO=C:\TMP
+   to set the directory for temporary files to C:\TMP (and use a text interface)
+   See the Warajevo documentation for more information.
+9. Warajevo emulates the +2 as well, so this model is selected if the memory
+   type was set.
+
+
+20.3. NOTES ON USING THE `X128' SPECTRUM EMULATOR
+-------------------------------------------------
+This emulator emulates nearly every Spectrum model you can imagine!
+It was the first emulator that accepted the `.SLT' and `.TZX' file formats.
+This emulator has a `/quiet' switch, which is also supported by SGD.
+X128 doesn't have options to preset a joystick, so only `.Z80' and `.SLT'
+type games can be forced to use a particular joystick (`ForceSnapJoystick').
+Since X128 allows specifying both a snapshot and a tape file on the command
+line, tape auto-loading is possible (see `The Configuration' for more info),
+as well as having multiload games starting in a snap and continueing in a tape;
+X128 emulates the +2/+2A (+2 mode selected), +3 and Pentagon as well, so these
+models are selected if the memory type was set.
+You need version 0.5 to be able to play microdrive (`.MDR') files.
+You need version 0.7 to be able to play `.TZX' files.
+You need version 0.8 to be able to play `.TRD' files.
+
+
+20.4. NOTES ON USING THE `WSPECEM' SPECTRUM EMULATOR
+----------------------------------------------------
+WSpecEm is the first Spectrum emulator to run under (any version of) Windows.
+Therefor, you cannot use command line switch '-W' (disable Windows) if you
+want to use this emulator.
+WSpecEm does not need command line options.
+At the moment, WSpecEm emulates a 48K Spectrum only, but 128K emulation is to
+be expected soon. SGD does not disallow 128K games to be passed to WSpecEm.
+Please note that this emulator comes in two flavors:
+
+- For Windows95 and NT (32-bits):
+  This will pose no problems, as this Windows version will identify the
+  emulator as a Windows program and act accordingly.
+  When the emulator is started, SGD will return immediately, allowing you to
+  start more than one instance of WSpecEm :)
+
+- For Windows 3.x (16-bits):
+  If SGD tries to call this version, you will receive the error message
+  "This program must be run under Microsoft Windows." (argh!)
+  I heard of the existence of a (shareware?) VxD that allows to call a Windows
+  program from a DOS box, but never found it.
+  If someone is able to pass me some info on this matter, please do!
+
+WSpecEm doesn't have options to preset a joystick, so only `.Z80' and `.SLT'
+type games can be forced to use a particular joystick (`ForceSnapJoystick').
+You will want to use command line option `-S' to be able to let WSpecEm use
+your soundcard.
+
+
+20.5. NOTES ON USING THE `ZX' SPECTRUM EMULATOR
+-----------------------------------------------
+At the moment, only 48K Spectrums can be emulated.
+
+
+20.6. NOTES ON USING THE `SPANISH SPECTRUM EMULATOR'
+----------------------------------------------------
+At the moment, only 48K Spectrums can be emulated.
+
+
+20.7. NOTES ON USING THE `ZX-32' SPECTRUM EMULATOR
+--------------------------------------------------
+ZX-32 runs under 32-bit Windows, either Windows95 or Windows NT.
+Therefor, you cannot use command line switch '-W' (disable Windows) if you
+want to use this emulator.
+ZX-32 does not need command line options.
+ZX-32 doesn't have options to preset a joystick, so only `.Z80' type games
+can be forced to use a particular joystick (`ForceSnapJoystick').
+When the emulator is started, SGD will return immediately, allowing you to
+start more than one instance of ZX-32 :)
+You need v1.02 and up to be able to play `.TZX' files.
+You will want to use command line option `-S' to be able to let ZX-32 use
+your soundcard.
+
+
+20.8. NOTES ON USING THE `R80' SPECTRUM EMULATOR
+------------------------------------------------
+This is the newest emulator and updates appear rapidly.
+This emulator has a `-nosound' switch, which is also supported by SGD.
+You MUST have v0.04 or up of this emulator, otherwise joystick preselection
+will result in an error of the emulator!
+R80 emulates the +2 (not +2A yet) and Pentagon as well, so these models are
+selected if the memory type was set.
+
+
+20.9. NOTES ON USING THE `RUSSIAN SPECTRUM EMULATOR' FROM SHALAYEV
+------------------------------------------------------------------
+This emulator comes with an extra package with loaders in it (.ADD files).
+This package is needed if you want to run `.Z80' or `.SNA' files.
+The package also adds support for `.TAP' files, but unfortunately not from the
+command line. Therefore, `.TAP' files are not allowed to be run from SGD.
+Since the emulator supports no command line switches other than loading an
+image, memory type selection etc. must be done within the emulator itself.
+
+
+20.A. NOTES ON USING THE `RUSSIAN SPECTRUM EMULATOR' FROM YUDIN
+---------------------------------------------------------------
+
+
+20.B. NOTES ON USING THE `REALSPECTRUM' SPECTRUM EMULATOR
+---------------------------------------------------------
+Setting options and selecting games for this emulator is done by rewriting the
+appropriate lines of the REALSPEC.INI file.
+This emulator has a `-nosound' switch, which is also supported by SGD.
+Since this emulator allows specifying both a snapshot on the command line and a
+tape file in the INI file, tape auto-loading is possible (see `The
+Configuration' for more info), as well as having multiload games starting in a
+snap and continueing in a tape;
+RealSpectrum emulates the +2/+2A (+2a mode selected), +3 and Pentagon as well,
+so these models are selected if the memory type was set.
+
+
+21. CONVERTING YOUR DATABASES
+-----------------------------
+The database format has changed during 4 version updates, v1.30 being the last
+one at the moment. You must convert your `old' databases with a command line
+switch:
+
+   Use `-c1' to convert from version 1.07 or below
+   Use `-c2' to convert from version 1.09 or below
+  (Use `-c3' to convert from version 1.17 or below)
+  (Use `-c4' to convert from version 1.21 or below)
+  (Use `-c5' to convert from version 1.29 or below)
+  (Use `-c6' to convert from version 1.30 or below)
+  (Use `-c7' to convert from version 1.35 or below)
+  (Use `-c8' to convert from version 2.01 or below)
+
+NOTES ON VERSION 1.09 AND BELOW:
+- Converting should be done one database at a time.
+- Be sure NOT to use the `Load Database' menu option within SGD to load the
+  next database to be converted, as this doesn't work!
+
+NOTES ON VERSION 1.10 AND UP:
+- Auto-conversion is provided, even when using `Import' or `Load' from the menu
+  strip, so options `-c3', `-c4', `-c5', `-c6', `-c7' and `-c8' are not
+  required.
+
+The converted database will be written back immediately if this is the first
+database read.
+The old, nonconverted version, is backed up first with extension .BAK
+Notice that this extension is the normal backup extension.
+
+The current database format is:
+
+Field        Start Length  Notes
+
+Name             1     36
+Year            38      4  Year-2000 compliant :-)
+Publisher       43     36
+Memory          80      3  Either one of " 16", " 48", "128", "4/1", "US0",
+                           " +2", " +3" or "Pen"
+# Players       84      1
+Together        86      1  Only 'Y' if > 1 player, space otherwise
+Joysticks       88      5  Shrunk leftward, order is 'K12CR' for
+                           Kempston, Intf2#1, Intf2#2, Cursor and Redefineable.
+PC-Name         94     12  The '.'s are aligned (raw name padded)
+Type           107      7
+PathIndex      115      3  Index number of the appropriate `GameDir' entry
+FileSize       119      7  Is '+' if the size has more than 7 digits
+Orig screen    127      1  'Y' if checked, space otherwise
+Origin         129      1  ' ' = (unknown)
+                           'O' = Original release
+                           'R' = Re-release
+                           'C' = Compilation release
+                           'M' = Magazine conver-tape version
+                           'T' = Type-in
+                           'H' = Hacked/cracked version
+                           'I' = Incomplete version
+                           'B' = Buggered/corrupted version
+FloppyId       131      4  Marked floppy number, or 0 for harddisk etc.
+Emul override  136      2  -1 = none
+                           0  = Z80
+                           1  = JPP
+                           2  = Warajevo
+                           3  = X128
+                           4  = WSpecEm
+                           5  = ZX
+                           6  = Spanish
+                           7  = ZX-32
+                           8  = R80
+                           9  = Russian/Shalayev
+                           10 = Russian/Yudin
+AYSound        139      1  'Y' if checked, space otherwise
+MultiLoad      141      1  'Y' if multi-load in both 48K and 128K mode
+                           '4' if multi-load only in 48K mode
+                           ' ' if not multi-load at all
+Language       143      3
+Score          147      3  0  = not set
+Author         151    100
+
+All fields are seperated with 1 space, each line is exactly 250 characters.
+Numerical fields are aligned right, plain text fields are aligned left.
+
+If you want to convert a database created with the `Warajevo ZX Spectrum
+Emulator' to an SGD database, use the external program `CONVWARA'.
+If you want to convert a database created with the `ZX-Rainbow Project' to an
+SGD database, use the external program `CONVRAIN'.
+
+
+22. USING A CUSTOM PALETTE
+--------------------------
+If you dislike the choises I made for the colors of the Spectrum, or you are
+unable to see everything due to your (monochrome) monitor, or you just want to
+see how weird Spectrum screens (and SGD itself for that matter) can look, you
+can use a custom palette. The colors to be used must be set up in your
+configuration file and you must turn `UseCustomPalette' ON.
+The values `CustomColorXX' are in Spectrum order and bright colors have 8
+added to their number (eg. bright red has number 10).
+The values used must be supplied in hexadecimal, preceeded by the tag `0x' for
+clearity. Both upper and lower case characters may be used in the number.
+
+For users unfamiliar with the hexadecimal system, you only need to be aware of
+the following simple rules:
+1. While the decimal has base 10, hexadecimal uses base 16;
+2. Digits above 9 are represented by letters starting with 'A', so
+   `A' = 10, `B' = 11, `C' = 12, `D' = 13, `E' = 14 and `F' is 15.
+
+The numbers themselves have the following format: `BBGGRR', where
+`BB' holds the Blue color part,
+`GG' holds the Green color part,
+`RR' holds the Red color part.
+As the chosen video mode has 6 bits per primary color, the largest allowed
+number in each part is 3F. In other words, the color 0x3F3F3F will represent the
+brightest possible white.
+
+If you don't like the changes you made and want to try again but forgot the
+original values, simply remove the `CustomColorXX' values from your
+configuration file, start SGD, choose `Config' and `Save' to get fresh values.
+
+
+23. USING LANGUAGES
+-------------------
+By default, SGD 'knows' of 5 default languages that games were written in:
+English (Eng), Spanish (Spa), German (Ger), Polish (Pol) and Russian (Rus).
+If you click on the page gadget right after the `Language' field, these are
+the languages presented in the drop-down list.
+If a game is in a language different from any of these (for example, in Dutch),
+you cannot use the drop-down list, and have to edit the `Language' field
+manually.
+This can be annoying if you have a whole list of games from a specific country
+that is not included in the list.
+For this purpose, there's an option in the configuration file SGD.INI.
+The option is named `AddLanguage' and the syntax is:
+
+    AddLanguage = "xxx"
+
+where 'xxx' is the 3-letter country-code you wish to use.
+This option must be added manually by editing the file SGD.INI.
+Once you added a language, it will appear in the drop-down list!
+This option `AddLanguage' can be used multiple times, to add multiple languages.
+The maximum is 255. Each language must be entered in its own line, such as
+
+    AddLanguage = "Dut"
+    AddLanguage = "Ita"
+
+
+24. SAVING BASIC BLOCKS
+-----------------------
+You can save BASIC blocks of a program to ASCII.
+The used filename will be the same as the game, but with extension `.BAS',
+and the file will be put in the current directory.
+The following conversions are used when saving:
+
+   Chars   Displayed as
+
+ Control codes:
+   00-05   "{XX}", where XX is 2-digit hex, holding the value
+   06      tab
+   07-0C   "{XX}", where XX is 2-digit hex, holding the value
+   0D      end of line
+   0E      skipped
+   0F      "{XX}", where XX is 2-digit hex, holding the value
+   10-17   PAPER, INK, BRIGHT, FLASH, OVER, INVERSE, AT and TAB control
+           characters are printed at e.g. "{PAPER x}"
+   18-1F   "{XX}", where XX is 2-digit hex, holding the value
+
+ Normal codes:
+   20-7E   character it stands for
+   7F      "{(C}}"
+
+ Graphics:
+   80-87   "{-X}", where X is 1-8 (the key to press)
+   88-8F   "{+X}", where X is 1-8 (the key to press along with shift)
+   90-A3   "{X}",  where X is 'A' - 'U'
+
+ BASIC tokens:
+   A4-FF   expanded token
+
+The UDGs T and U are printed as token 'SPECTRUM' and 'PLAY' if a 128K listing
+is being written.
+
+
+25. MULTILOAD GAMES
+-------------------
+Lots of games load extra data while running. For example, several arcade games
+load next levels.
+One of the ways to store these is a tape format such as TZX or TAP, the Super
+Level-loader Trap format SLT or the normal level-loader trap - a snapshot with
+a set of DAT files.
+
+Several programs on the net come in the form "snap + TAP/VOC". This allows for
+instant start of a game, while retaining the ability to load extra data.
+This setup is used so often that SGD has special options to support it.
+The only thing to note is that the snap and TAP/VOC filename MUST be equal.
+Only the extension may differ.
+
+Note that only the emulators `Z80', `X128' and `Warajevo' have the ability to
+select more than one filename, so only these emulators can handle MultiLoad
+games that reside in more than 1 file.
+
+The following options are available:
+
+1. Through a special string at the end of the game name field.
+
+   This option is 'prepared' in the configuration file SGD.INI
+
+   Z80SnapNeedsTape : This string is searched for at the end of the game name
+                      if this game is in a `.Z80' or `.SNA' file and the chosen
+                      emulator is Z80 or X128. If it is found, the PC-file with
+                      the same name but extension `.TAP' is inserted as a tape
+                      file as well. This is used for programs of which the first
+                      part is in a snapshot while the rest is in a tape.
+                      E.g.: `Professional Adventure Writer' is in a `.Z80' file
+                            while the character sets are in a `.TAP' file on
+                            most internet sites. When this option is used, it
+                            will play `PAW128K.Z80' and also insert the tape
+                            file `PAW128K.TAP'
+                      I use the string "+TAP)" myself.
+   Z80SnapNeedsVOC  : Does the same as Z80SnapNeedsTape, but when the rest of
+                      the program is in a `.VOC' file.
+                      I use the string "+VOC)" myself.
+
+2. Through the database field `MultiLoad'.
+
+   If this flag is set (either `yes' or `48K') and the selected filename has
+   extension .Z80 or .SNA, SGD will check if that filename is also available
+   with extension .TAP or .VOC. If so, SGD will pass that file to the emulator
+   as well.
+
+
+26. USING TAPER IN CONJUCTION WITH SGD
+--------------------------------------
+First off, what is TAPER? TAPER is a tool to manipulate Spectrum tape files.
+It also gives you the possibility to 'play' the tape files to an actual
+ZX Spectrum, through a SoundBlaster compatible soundcard, parallel port
+interface or serial/parallel port network. It runs in the same GUI environment
+as SGD, so things will look pretty familiar.
+It is being developed by 3 people: Tomaz Kac (who for instance developed the
+.TZX file format and wrote HypraLoader), Martin Kopanske (the very first
+registered user of SGD!) and me. You can download it from my site as well.
+In order to use this combination, the TAPER program files must be in the same
+directory as SGD.
+When the currently selected game is in a tape file, you will see the menu entry
+`Call TAPER' unghosted. Now, if you select this menu entry, TAPER is started as
+a subprogram of SGD, loaded with your tape file.
+If you selected command line option `-s' (disable Soundcard) or `-m' (disable
+Mixer), TAPER will be disabled accordingly.
+To use this feature, you MUST have TAPER version 1.02 or up.
+You need TAPER v2.03 or up to be able to play .Z80 and .SNA files.
+For more information about TAPER, have a look at its home base at:
+   http://www.void.demon.nl/taper.html
+
+
+27. TROUBLESHOOTING
+-------------------
+Q: When I return from SGD to DOS, or when I start a shell from within SGD,
+   the screen does not have a cursor, but I see a cursor-like line
+   somewhere in the void. The font seems to have changed too. What happened?
+A: I encountered this problem so far only when using MouseWare from Logitech.
+   If you use Logitech's MouseWare, ensure that the VCI module `LVESA.OVL' is
+   loaded and cursor enhancements are off.
+   To do this, edit your `MOUSEDRV.INI' file. Look for the section `[Display]'
+   and ensure that a line `VideoModule=C:\MOUSE\LVESA.OVL' is present (or
+   whereever the `LVESA.OVL' file resides).
+   Now, if you load your mouse driver (possibly from your `AUTOEXEC.BAT' file),
+   load it with parameter `NOCENHANCE'.
+
+Q: The mouse makes a mess of the screen! I don't like this at all!
+A1:You have a Genius mouse with a driver version 7.02 or below.
+   Genius mouse drivers v7.02 and below have a different approach for mouse
+   hiding. If you use one, weird things can happen. Yet, no harm is done by
+   this to the application nor your computer. Two solutions are available:
+   1. Get yourself a newer mouse driver, or
+   2. Turn the option `UseGeniusMouseHiding' on in the configuration file.
+A2:You have a combination of an older (ISA) video card and an older mouse
+   driver, which does not provide the RIL (Register Interface Library).
+   Be sure that you turned the option `DirectVideoControl' off in `SGD.INI',
+   as this disables the RIL.
+   You can see if the RIL is present when pressing the `SysInfo' button.
+   If a RIL is present, you will see a line `RIL version : xxxx' in the video
+   section. If it is absent (or not used), you get `Control : Direct' instead.
+   You can solve this problem in the following ways:
+   1. If you are running SGD in a DOS-box from OS/2, update the box's
+      parameters, so that compatibility mode is on.
+   2. Use a newer, fully Microsoft compatible mouse driver, or
+   3. Add the following line in your `CONFIG.SYS':
+      DEVICE = EGA.SYS
+      This device driver also provides the RIL.
+
+Q: When I have SGD running, I can't see what's on the screen very well.
+   Is there anything I can do about it?
+A: Yes, you can use a custom palette to create better color contrast.
+   See `Using a Custom Palette' for details.
+
+Q: I print to a print queue (for example a Novell Netware captured LPT port).
+   When I choose to print the database, it doesn't work!
+A: SGD prints to the parallel port hardware directly. Queueing programs are
+   unable to trap those operations. For this reason, I built LPT0: in the
+   configuration. This will print to a file instead. Use this feature and
+   print the file from DOS (or the shell) instead.
+
+Q1:I run TAPER from Windows NT. The mouse cursor often stays in the 'waiting'
+   cursor shape, until I move the mouse.
+Q2:I run TAPER from Windows NT. The mouse cursor looks very weird.
+A: Although Windows is from Microsoft, the emulated mouse cursor in a DOS box is
+   absolutely NOT Microsoft compatible!  Talk about weirdos, eh!
+   You should turn on the `NoLocalMouseHiding' in the configuration file. This
+   will solve the screen problems, although the mouse will still look weird
+   in Windows NT.
+
+Q: I run SGD from a Windows (95) DOS-box. When I start it, it complains about
+   a missing mouse driver. I'm using my mouse without problems within Windows
+   though!
+A: This is a common mistake. Windows and DOS each need their own mouse driver.
+   The mouse driver from Windows cannot be used within DOS and vice versa.
+   You should add a line in your `AUTOEXEC.BAT' to activate a mouse in DOS
+   (or type it on the command line before starting SGD).
+   If you upgraded from Windows 3.x to Windows95, the install program from
+   Windows95 removed this line from your `AUTOEXEC.BAT' (or put `REM' in front
+   of the line) for no appearant reason, so you should add it back and write a
+   hate-mail to Bill Gates.
+
+Q: When I run SGD from DOS, I get XMS version 3.0. But when I run SGD from a
+   DOS-box in Windows 3.x, I get XMS version 2.0, although I didn't change my
+   XMS driver. How's that possible?
+A: Windows 3.x uses an internal, enhanced (yeah, right) XMS driver, which
+   overrides the driver you installed already. This driver is actually A LOT
+   slower (that's why they invented version 3.0!!!), but should work fine
+   with SGD.
+
+Q1:When I load a database, I get the fatal error `Percentage is [>100%]'!
+Q2:When I load a database, I get the fatal error `Database found corrupt while
+   reading entry [XXX]'
+A: You have to convert your database to the new format of v1.30
+   Please read the section `Converting Your Databases'.
+
+Q: I adjusted the volume level for the PC-Speaker, but hear no difference.
+A: You didn't connect the speaker connector on the mainboard to the soundcard.
+   The internal speaker's volume cannot be altered by software.
+
+
+28. THE CREDITS
+---------------
+I would like to thank the following people:
+
+- Sir Clive Sinclair for creating such a terrific machine;
+- Gerton A. Lunter for writing the remarkable Spectrum emulator `Z80';
+  (also for documenting everything so well, thanks!)
+- Arnt Gulbrandsen for writing the Spectrum emulator `JPP';
+- Zeljko Juric and Samir Ribic for writing the excellent `Warajevo ZX Spectrum
+  Emulator';
+- James McKay for the superb Spectrum emulator `X128';
+- Rui Ribeiro for writing the Spectrum emulator `WSpecEm';
+- Radovan Garabik and Lubomir Salanci for writing the Spectrum emulator `ZX';
+- Pedro Gimeno for writing the `Spanish Spectrum Emulator';
+- Vaggelis Kapartzianis for writing the Spectrum emulator `ZX-32';
+- Raul Gomez Sanchez for writing the Spectrum emulator `R80';
+- Nikolay Shalayev for writing the `Russian Spectrum Emulator';
+- Vladimir Yudin for writing the `Russian Spectrum Emulator';
+- Ramsoft for writing the outstanding emulator `RealSpectrum';
+- Damien Burke for including SGD in the official `Spectrum FAQ';
+- Martin Kopanske for all his ideas and very detailed beta-reports;
+- Tomaz Kac for developing the excellent tape file format `.TZX', being a
+  co-developer of TAPER and for the database fields `MultiLoad', `AY-Sound' and
+  the changed `Memory' field;
+- Lee Tonks and Andy Barker for helping to maintain WOS and working out the
+  database field `Origin';
+- Jeroen J. Kwast of ThunderWare Research Center for writing one of the
+  Spectrum emulators on the Amiga and for being such a critical beta-tester;
+- Gerard Mulder for his enthusiasm and being my second beta-tester;
+- Frank Vierstra for being my third beta-tester;
+- Claus Jahn and Andy Schraepel for their excellent Spectrum database program
+  `ZX Rainbow' (and for providing me detailed information about the database
+  file format) and their editor `ZX-Edit';
+- All my external beta-testers;
+- Lex Klaassen for his idea of a marked floppy system;
+- Bruno Del Frate for his idea of the joystick pre-selection;
+- Leigh C Hartley for his suggestions regarding the `Language' selection;
+- Ronald Raaijen for several suggestions and his extensive database;
+- Miodrag Stancevic for being such a kind beta-tester;
+- Camille van der Heide for mentioning his ideas for improvement;
+- The Internet Service Unit of KPN Telecom for allowing my Spectrum archive on
+  their net;
+- The folks at the Netverksgruppa for maintaining this huge Spectrum archive
+  at www/ftp.nvg.unit.no and for having SGD in their archive.
+- All those people who maintain WWW pages and archive sites for the Spectrum;
+- All those people who made images of games and gave them away!
+- All publishers, producers, programmers and artists of commercially produced
+  Spectrum software who allow free distribution!
+
+
+29. HOW TO CONTACT ME
+---------------------
+Contacting me can be done in only two ways at the moment, by mail and e-mail.
+If you have suggestions for improvement (bug reports are also welcome... ;)
+write an e-mail to the following address:
+
+  mheide@void.jump.org
+
+Or a `normal', oldfashioned snail-mail letter to:
+
+  ThunderWare Research Center
+  t.a.v. Martijn van der Heide
+  Cederstraat 56
+  2565 JR  Den Haag
+  The Netherlands
+
+
+Enjoy!
+
+Martijn van der Heide
+Senior Software Development Engineer
+ThunderWare Research Center

@@ -1,0 +1,19 @@
+NInfinite lives                
+M  2 33055 255   4
+Z  2 33909   0  61
+NTwo bats                      
+Z  2 40413   1   0
+NCatch                         
+Z  2 40413   4   0
+NLaser                         
+Z  2 40413  32   0
+NNext screen                   
+Z  2 40414   1   0
+NPower ball                    
+Z  2 40415  64  23
+NNo moving bricks              
+M  2 33423   0   0
+Z  2 33429   0   0
+NSet number of bricks          
+Z  2 40443 256   0
+Y

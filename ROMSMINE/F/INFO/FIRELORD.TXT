@@ -1,0 +1,93 @@
+THE SPECTRUM GAMES DATABASE
+
+FIRELORD
+
+PUBLISHER
+Hewson
+
+AUTHOR
+
+YEAR
+1986
+
+CATEGORY
+Arcade adventure
+
+DESCRIPTION
+A walking collect-the-objects type game.
+
+CONTROLS
+Keyboard, Kempston, Cursor.
+
+ KEYS : Left    - O
+        Right   - P
+        Up      - Q
+        Down    - A
+        Fire    - M
+
+INSTRUCTIONS
+Deep in the once-beautiful land of Torot, Sir Galaheart is
+setting out on a perilous quest - to seek out the sacred
+Firestone and return it to the Dragon's safekeeping. However, the
+Firestone is in the hands of the Evil Queen, who had seized it
+and used its power to curse the land with fire and ghostly
+apparitions who now drift the streets in ghastly imitation of the
+once-happy inhabitants. At one time the people had roamed freely
+but now they cower in their homes. Her price for the release of
+the Stone is for some brave warrior to win for her the four
+charms of eternal youth...
+
+As well as the ghosts which Sir Galaheart must dispel there are
+a host of characters for him to meet and trade with:
+
+ 1. Peasants know the villages and forests well although they may
+be slow-witted.
+ 2. The Gatekeepers at their Toll Houses can arrange travel, for
+a fee.
+ 3. Herbalists can also help with travel if you buy a Timescape
+spell from them.
+ 4. The Witches and Wizards have spells available for you to buy.
+(The Dragon's teeth may be of use).
+ 5. Knights can sell you weapons for you to use against the
+ghosts
+ 6. The Wise Old Man is a useful source of information, as are
+the Hermits, rumoured to live in the forests.
+ 7. The Bishops tend to be quick and greedy so it pay not to try
+and cheat them!
+ 8. The Reeves administer justice and may be helpful if treated
+with respect.
+ 9. Princess Eleanor is held captive by the Evil Queen and may
+look kindly on those who are trying to help her.
+
+At the top of the screen you will see your status bar. From left
+to right, this shows your score, your lives left, your energy
+left (the heart), your weapons left (the stars) and your
+bartering
+energy left (the cross).
+
+When you enter a house you may trade with the occupant.  Place
+the cursor over an icon and press fire to select it. To cancel
+a selection press fire a second time. The ribbons at the edge of
+the screen distinguish, by their colour, similar characters -
+Green Witch, Red Witch etc. The icons on the screen are divided
+into several groups.  On the left are Galaheart's current
+objects. In the centre left of the screen are the types of
+service available:
+
+ 1. Scales               - trade an object.
+ 2. Signpost             - find out where you are.
+ 3. Timescape (star)     - cast a spell to a magic place
+ 4. Portcullis           - pay a toll to pass through the house
+ 5. Supplies (head)      - buy food, weapons or trading tokens
+ 6. Information          - find out how to accomplish your quest 
+
+Each occupant provides one or more types of service. Select the
+type you require and between one and four of your objects which
+you are prepared to trade in exchange. If your payment is
+sufficient the occupant will make an offer by displaying a
+suitable icon on the centre right of the screen. If you wish to
+complete the deal select the icon displayed.
+
+SCORES RECEIVED
+Crash "If arcade adventures are your scene, then get a load of
+this!" 91% (CRASH #35, December 1986)

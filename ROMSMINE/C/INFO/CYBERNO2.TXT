@@ -1,0 +1,35 @@
+ CYBERNOID II
+ Hewson 1988
+
+ CONTROLS : Keyboard, Kempston
+ ----------------------------------------------------------------------
+ AIM : The pirates you defeated in the original CYBERNOID have returned
+ in a new Battlestar, bigger, badder and meaner than before. Once again
+ you've been given the job of rescuing the cargo stolen by the pirates.
+ This time you've got a shiny new ship and a bigger arsenal of weaponry
+ but the task will be even more dangerous than before...
+
+ GAMEPLAY : Fly around, shoot everything that moves (and everything that
+ doesn't...) The pirate craft drop their cargos when they are destroyed;
+ you can pick these up and make use of them. You will need to use a
+ variety of weapons to defeat the pirates in the limited amount of time
+ you have (the coloured graph at the bottom right indicates time 
+ remaining). There are seven different types of weapon, selected by
+ pressing keys 1-7 and activated by holding down fire:
+
+ 1) Bombs	 - destroy large weapon emplacements.
+ 2) Time bombs   - explode a few seconds after release.
+ 3) Shield	 - temporarily renders your ship invincible.
+ 4) Bounce bombs - bounce around the screen exploding on impact.
+ 5) Seeker	 - homes in on the target
+ 6) Smart	 - destroys all emplacements on the screen.
+ 7) Tracer	 - follows edge of screens destroying all emplacements
+		  in its path.
+
+ COMMENTS : "Not as stunning second time round, but still maintains the
+ original's playability".
+ RATING : 88% (CRASH #57, October 1988)
+
+ NOW : A very tough but still enjoyable shoot-em-up.
+ ----------------------------------------------------------------------
+ KEYS : Redefinable
