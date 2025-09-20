@@ -1,6 +1,5 @@
 <?php
 /*
-v0904b7 250920a Fixed thumb size + Show INFO text
 v0904b6 250919 Added SCRSHOT display
 v0904b5 250915 Rewrite with AI to load ActualFilenames on demand (not all at once at start of session)
 v0904b4 250915 Inlays FIX
@@ -336,7 +335,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const fields = <?php echo json_encode(array_keys($fieldDefinitions)); ?>;
     const gameImage = document.getElementById('game-screenshot');
     const gameImage2 = document.getElementById('game-screenshot2');
-    const gameInfo = document.getElementById('game-info');
     const gameImageContainer = document.getElementById('game-image');
     const filterInput = document.getElementById('filter-input');
     const filterSelect = document.getElementById('filter-select');
@@ -364,7 +362,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         console.error("Error fetching filenames:", data.error);
                         return;
                     }
-                    
+                    console.log('actualTxtFilename='+data.actualTxtFilename);
                     myimagename = data.actualInlayFilename;
                     mypath = 'ROMSMINE/' + letterDir + '/INLAYS/' + myimagename;
                     console.log(mypath);
@@ -397,26 +395,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     img2.src = imagePath2;
 
 
-                    console.log('actualTxtFilename='+data.actualTxtFilename);
- 
-                    mypathTxt = 'ROMSMINE/' + letterDir + '/INFO/' + data.actualTxtFilename;
- 
-					fetch(mypathTxt)
-					  .then(response => {
-					    if (!response.ok) {
-					      throw new Error('Network response was not ok');
-					    }
-					    return response.text();
-					  })
-					  .then(text => {
-					    // Set the content of the div to the file contents
-					    gameInfo.innerText = text;
-					    gameInfo.style.display = 'block';
-					  })
-					  .catch(error => {
-					    console.error('Error fetching the file:', error);
-					    gameInfo.style.display = 'none'; // Or keep it hidden if error occurs
-					  });
 
                     updateGameDirectoryDisplay();
                 });
@@ -640,16 +618,8 @@ function processFilename(str) {
             <button type="submit">SAVE</button>
         </form>
         <div id="game-image" style="margin-bottom: 20px; text-align: center;">
-<!--            <img id="game-screenshot" src="" alt="Game Screenshot" style="max-width: 100%; height: auto; display: none;">
-            <img id="game-screenshot2" src="" alt="Game Screenshot" style="max-width: 100%; height: auto; display: none;"> -->
-            <img id="game-screenshot" src="" alt="Game Screenshot" style="width:300px; height:200px; cursor:pointer; object-fit:cover;" onclick="if(this.style.width=='300px'){this.style.width='100%'; this.style.height='auto';} else {this.style.width='300px'; this.style.height='200px';}" >
-            <img id="game-screenshot2" src="" alt="Game Screenshot" style="width:300px; height:200px; cursor:pointer; object-fit:cover;" onclick="if(this.style.width=='300px'){this.style.width='100%'; this.style.height='auto';} else {this.style.width='300px'; this.style.height='200px';}">
-            <div id="game-info" contenteditable="true" 
-			     style="border: 1px dashed #999; width: 300px; height: 50px; padding: 8px; font-family: Arial, sans-serif;">
-			  Enter your text here...
-			</div>
-
-
+            <img id="game-screenshot" src="" alt="Game Screenshot" style="max-width: 100%; height: auto; display: none;">
+            <img id="game-screenshot2" src="" alt="Game Screenshot" style="max-width: 100%; height: auto; display: none;">
         </div>
     </div>
 </body>
